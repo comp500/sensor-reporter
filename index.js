@@ -13,10 +13,11 @@ barometer.begin(function(err) {
 
 app.get('/', function (req, res) {
 	barometer.readPressureAndTemparature(function(err, pressure, temperature, humidity) {
-		res.write("Temperature: " + temperature.toFixed(2) + "℃\n");
-		res.write("Pressure: " + (pressure / 100).toFixed(2) + "hPa\n");
+		res.write("<html><head><meta http-equiv=\"refresh\" content=\"5\"><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"></head><body>");
+		res.write("Temperature: " + temperature.toFixed(2) + " ℃\n");
+		res.write("Pressure: " + (pressure / 100).toFixed(2) + " hPa\n");
 		res.write("Humidity: " + humidity.toFixed(2) + "%\n");
-		res.end();
+		res.end("</body></html>");
 	});
 });
 
