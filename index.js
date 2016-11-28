@@ -2,6 +2,9 @@ var express = require('express');
 var app = express();
 var BME280 = require('node-bme280');
 var barometer = new BME280({address: 0x77});
+
+var Datastore = require('nedb')
+  , db = new Datastore({ filename: 'data.txt', autoload: true });
  
 barometer.begin(function(err) {
     if (err) {
