@@ -48,7 +48,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/output.csv', function (req, res) {
-	db.find({}, function (err, docs) {
+	db.find({}).sort({ time: 1 }).exec(function (err, docs) {
 		for (var i = 0; i < docs.length; i++) {
 			var time = docs[i].time;
 			var formattedDate = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate();
