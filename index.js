@@ -52,7 +52,7 @@ app.get('/output.csv', function (req, res) {
 		for (var i = 0; i < docs.length; i++) {
 			var time = docs[i].time;
 			var formattedDate = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate();
-			var formattedTime = time.getHour() + ":" + time.getMinutes() + ":" + time.getSeconds();
+			var formattedTime = time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
 			var formattedDateTime = formattedDate + " " + formattedTime; // github doesn't like long lines
 			res.write(formattedDateTime + ",");
 			res.write(ambientTemperature + ",");
