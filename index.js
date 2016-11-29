@@ -55,9 +55,9 @@ app.get('/output.csv', function (req, res) {
 			var formattedTime = time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
 			var formattedDateTime = formattedDate + " " + formattedTime; // github doesn't like long lines
 			res.write(formattedDateTime + ",");
-			res.write(ambientTemperature + ",");
-			res.write(pressure + ",");
-			res.write(humidity + "\n");
+			res.write(docs[i].ambientTemperature + ",");
+			res.write(docs[i].pressure + ",");
+			res.write(docs[i].humidity + "\n");
 		}
 	});
 });
