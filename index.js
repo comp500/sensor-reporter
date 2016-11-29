@@ -47,6 +47,21 @@ app.get('/', function (req, res) {
 	res.end("</body></html>");
 });
 
+app.get('/output.csv', function (req, res) {
+	db.find({}, function (err, docs) {
+		for (var i = 0; i < docs.length; i++) {
+			var time = docs[i].time;
+			var formattedDate = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate();
+			var formattedTime = time.getHour() + ":" + time.getMinutes() + ":" + time.getSeconds();
+			var formattedDateTime = formattedDate + " " + formattedTime; // github doesn't like long lines
+			res.write(formattedDateTime + ",");
+			res.write(ambientTemperature + ",");
+			res.write(pressure + ",");
+			res.write(humidity + "\n");
+		}
+	});
+});
+
 app.listen(80, function () {
 	console.log('Example app listening on port 80!');
 });
