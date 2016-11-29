@@ -59,6 +59,7 @@ app.get('/output.csv', function (req, res) {
 			res.write(docs[i].pressure + ",");
 			res.write(docs[i].humidity + "\n");
 		}
+		res.end();
 	});
 });
 
