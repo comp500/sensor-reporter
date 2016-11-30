@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="src/favicon.ico">
+<link href="https://fonts.googleapis.com/css?family=Lato|Open+Sans|Ubuntu" rel="stylesheet"> 
+    <title>PiWeather</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="src/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="src/style.css" rel="stylesheet">
+       <script src="src/chartJS/Chart.bundle.js"></script>
+    <script src="src/chartJS/samples/utils.js"></script>
+    <style>
+   
+    </style>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
+      <a class="navbar-brand" href="#">RPi Weather Station</a>
+      <ul class="nav navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+           <li class="nav-item">
+          <a class="nav-link" href="output.csv">Exports <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </nav>
+      <div class="alert alert-warning" style="margin-top:-1.75em" role="alert">
+  <strong>Warning!</strong> This is not production software
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="jumbotron">
+                <h1 class="display-3" id="center">{{ambientTemperature}}&#176;C</h1>
+                <p class="lead" id="center">Temperature</p><hr>
+                <p class="lead" id="center">ICT office</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="jumbotron">
+                <h1 class="display-3" id="center">{{soilTemperature}}&#176;C</h1>
+                <p class="lead" id="center">Temperature</p><hr>
+                <p class="lead" id="center">Soil</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="jumbotron">
+                <h1 class="display-3" id="center">{{humidity}}%</h1>
+                <p class="lead" id="center">Humidity</p><hr>
+                <p class="lead" id="center">ICT office</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="jumbotron">
+                <h1 class="display-3" id="center">{{pressure}}<strong style="font-size:0.5em">hPa</strong></b></h1>
+                <p class="lead" id="center">Pressure</p><hr>
+                <p class="lead" id="center">ICT office</p>
+            </div>
+        </div>
+    </div>
+  <!--
+  <div class="card-block">
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
+           </div>
+    </div></div>
+     <div class="row">
+  <div class="col-md-6"> 
+      
+      <div class="card">
+  <div class="card-block">
+    <h4 class="card-title">Temperature</h4>
+    <h6 class="card-subtitle text-muted">Sensor 0</h6>
+  </div>
+    <div style="width:90%; margin-left:5%; margin-bottom: 5%;">
+        <canvas id="ambient"></canvas>
+    </div>
+  
+      <div class="card-footer text-muted">
+    Last updated 30 seconds ago
+  </div>
+</div></div>
+  <div class="col-md-6"><div class="card">
+  <div class="card-block">
+    <h4 class="card-title">Pressure</h4>
+    <h6 class="card-subtitle text-muted">Sensor 1</h6>
+  </div>
+  
+  <div class="card-block">
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
+</div></div>
+</div>
+    <div class="container">
+      <div class="base">
+        <h1>Data</h1>
+        <p class="lead">here</p>
+      </div>
+        <div class="container">
+
+        </div>
+    </div>
+
+<script>
+        var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var config = {
+            type: 'line',
+            data: {
+                labels: ["1800", "2000", "2200", "2400", "0200", "0400", "0600", "0800", "1000"],
+                datasets: [{
+                    label: "Temperature",
+                    backgroundColor: window.chartColors.red,
+                    borderColor: window.chartColors.red,
+                    data: [
+                        21,20,20,19,20,21,18.5,18.25
+                    ],
+                    fill: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                 scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time',
+                            fontFamily: "serif"
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Temperature'
+                        }
+                    }]
+                }
+            }
+        };
+
+        window.onload = function() {
+            var ctx = document.getElementById("trunting").getContext("2d");
+            window.myLine = new Chart(ctx, config);
+        };
+     window.onload = function() {
+            var ctx = document.getElementById("ambient").getContext("2d");
+            window.myLine = new Chart(ctx, config);
+        };
+
+
+       
+
+       
+       
+    </script>
+-->
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="src/jquery.js"><\/script>')</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="src/bootstrap.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="src/ie10-viewport-bug-workaround.js"></script>
+          
+      </div>
+    </body>
+</html>
