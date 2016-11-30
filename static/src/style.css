@@ -1,0 +1,16 @@
+body {
+  padding-top: 5rem;
+}
+.base {
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+   
+ canvas{
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+#center {
+    text-align: center  
+}
