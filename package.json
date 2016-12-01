@@ -1,0 +1,17 @@
+{
+  "name": "sensor-reporter",
+  "version": "1.0.0",
+  "description": "A node-based web interface for sensors",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.14.0",
+    "nedb": "^1.8.0",
+    "node-bme280": "^0.1.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "comp500, arbvl",
+  "license": "ISC"
+}
