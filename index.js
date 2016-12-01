@@ -51,9 +51,9 @@ app.get('/', function (req, res) {
 	}
 	res.end("</body></html>");*/
 	res.render("index", {
-		ambientTemperature: latestTemp,
-		pressure: latestPressure,
-		humidity: latestHumidity
+		ambientTemperature: latestTemp.toFixed(1),
+		pressure: latestPressure.toFixed(0),
+		humidity: latestHumidity.toFixed(1)
 	});
 });
 
