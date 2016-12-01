@@ -35,6 +35,8 @@ var readData = function () {
 	});
 };
 
+app.use(express.static('static'));
+
 app.get('/', function (req, res) {
 	res.write("<html><head><meta http-equiv=\"refresh\" content=\"5\"><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"></head><body>");
 	if (ready) {
