@@ -1,4 +1,5 @@
 var express = require('express');
+var exphbs  = require('express-handlebars');
 var app = express();
 var BME280 = require('node-bme280');
 var barometer = new BME280({address: 0x77});
@@ -35,10 +36,12 @@ var readData = function () {
 	});
 };
 
+app.engine('handlebars', exphbs({defaultLayout: false}));
+app.set('view engine', 'handlebars');
 app.use(express.static('static'));
 
 app.get('/', function (req, res) {
-	res.write("<html><head><meta http-equiv=\"refresh\" content=\"5\"><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"></head><body>");
+	/*res.write("<html><head><meta http-equiv=\"refresh\" content=\"5\"><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"></head><body>");
 	if (ready) {
 		res.write("Temperature: " + latestTemp + " ℃<br>");
 		res.write("Pressure: " + latestPressure + " hPa<br>");
@@ -46,7 +49,12 @@ app.get('/', function (req, res) {
 	} else {
 		res.write("No data is available currently.");
 	}
-	res.end("</body></html>");
+	res.end("</body></html>");*/
+	res.render("index", {
+		ambientTemperature: latestTemp,
+		pressure: latestPressure,
+		humidity: latestHumidity
+	});
 });
 
 app.get('/output.csv', function (req, res) {
