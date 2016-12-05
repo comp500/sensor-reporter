@@ -6,6 +6,7 @@ var barometer = new BME280({address: 0x77});
 var latestTemp;
 var latestPressure;
 var latestHumidity;
+var latestTime;
 var ready = false;
 
 var Datastore = require('nedb')
@@ -23,12 +24,13 @@ barometer.begin(function(err) {
 
 var readData = function () {
 	barometer.readPressureAndTemparature(function(err, pressure, temperature, humidity) {
+		latestTime = new Date();
 		latestTemp = temperature.toFixed(2);
 		latestPressure = (pressure / 100).toFixed(2);
 		latestHumidity = humidity.toFixed(2);
 		ready = true;
 		db.insert({
-			time: new Date(),
+			time: latestTime,
 			ambientTemperature: latestTemp,
 			pressure: latestPressure,
 			humidity: latestHumidity
@@ -42,8 +44,11 @@ app.use(express.static('static'));
 
 app.get('/', function (req, res) {
 	if (ready) {
+		var now = new Date();
+		var secondsPast = (now.getTime() - latestTime.getTime()) / 1000;
 		res.render("index", {
 			ready: true,
+			measurementTime: secondsPast,
 			sensors: [
 				{
 					value: parseFloat(latestTemp).toFixed(1),
