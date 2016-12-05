@@ -52,6 +52,7 @@ app.get('/', function (req, res) {
 	res.end("</body></html>");*/
 	if (ready) {
 		res.render("index", {
+			ready: true,
 			sensors: [
 				{
 					value: parseFloat(latestTemp).toFixed(1),
