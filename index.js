@@ -50,7 +50,7 @@ app.get('/', function (req, res) {
 		res.write("No data is available currently.");
 	}
 	res.end("</body></html>");*/
-	if (ready) {
+	/*if (ready) {
 		res.render("index", {
 			ready: true,
 			sensors: [
@@ -75,11 +75,11 @@ app.get('/', function (req, res) {
 				}
 			]
 		});
-	} else {
+	} else {*/
 		res.render("index", {
 			ready: false
 		});
-	}
+	//}
 });
 
 app.get('/output.csv', function (req, res) {
