@@ -41,15 +41,6 @@ app.set('view engine', 'handlebars');
 app.use(express.static('static'));
 
 app.get('/', function (req, res) {
-	/*res.write("<html><head><meta http-equiv=\"refresh\" content=\"5\"><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"></head><body>");
-	if (ready) {
-		res.write("Temperature: " + latestTemp + " ℃<br>");
-		res.write("Pressure: " + latestPressure + " hPa<br>");
-		res.write("Humidity: " + latestHumidity + "%\n");
-	} else {
-		res.write("No data is available currently.");
-	}
-	res.end("</body></html>");*/
 	if (ready) {
 		res.render("index", {
 			ready: true,
