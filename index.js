@@ -50,29 +50,35 @@ app.get('/', function (req, res) {
 		res.write("No data is available currently.");
 	}
 	res.end("</body></html>");*/
-	res.render("index", {
-		sensors: [
-			{
-				value: parseFloat(latestTemp).toFixed(1),
-				unit: "&#176;C",
-				measurement: "Temperature",
-				location: "ICT office"
-			},
-			{
-				value: parseFloat(latestHumidity).toFixed(1),
-				unit: "%",
-				measurement: "Humidity",
-				location: "ICT office"
-			},
-			{
-				value: parseFloat(latestPressure).toFixed(0),
-				unit: "hPa",
-				small: true,
-				measurement: "Pressure",
-				location: "ICT office"
-			}
-		]
-	});
+	if (ready) {
+		res.render("index", {
+			sensors: [
+				{
+					value: parseFloat(latestTemp).toFixed(1),
+					unit: "&#176;C",
+					measurement: "Temperature",
+					location: "ICT office"
+				},
+				{
+					value: parseFloat(latestHumidity).toFixed(1),
+					unit: "%",
+					measurement: "Humidity",
+					location: "ICT office"
+				},
+				{
+					value: parseFloat(latestPressure).toFixed(0),
+					unit: "hPa",
+					small: true,
+					measurement: "Pressure",
+					location: "ICT office"
+				}
+			]
+		});
+	} else {
+		res.render("index", {
+			ready: false
+		});
+	}
 });
 
 app.get('/output.csv', function (req, res) {
