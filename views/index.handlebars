@@ -45,7 +45,7 @@
     	{{#each sensors}}
         <div class="col-md-3">
             <div class="jumbotron">
-                <h1 class="display-3" id="center">{{value}}{{#if small}}<strong style="font-size:0.5em">{{unit}}</strong>{{else}}{{unit}}{{/if}}</h1>
+                <h1 class="display-3" id="center">{{value}}{{#if small}}<strong style="font-size:0.5em">{{{unit}}}</strong>{{else}}{{{unit}}}{{/if}}</h1>
                 <p class="lead" id="center">{{measurement}}</p><hr>
                 <p class="lead" id="center">{{location}}</p>
             </div>
