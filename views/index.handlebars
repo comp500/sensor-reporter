@@ -40,7 +40,10 @@
       <div class="alert alert-warning" style="margin-top:-1.75em" role="alert">
   <strong>Warning!</strong> This is not production software
 </div>
+    {{unless ready}}<div class="alert alert-warning" style="margin-top:-1.75em" role="alert">
+  <strong>Warning!</strong> There is no data available yet.</div>{{/unless}}
 <div class="container">
+    {{#if ready}}
     <div class="row">
     	{{#each sensors}}
         <div class="col-md-3">
@@ -52,6 +55,7 @@
         </div>
 		{{/each}}
     </div>
+    {{/if}}
   <!--
   <div class="card-block">
     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
