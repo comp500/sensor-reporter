@@ -48,7 +48,7 @@ app.get('/', function (req, res) {
 		var secondsPast = (now.getTime() - latestTime.getTime()) / 1000;
 		res.render("index", {
 			ready: true,
-			measurementTime: secondsPast,
+			measurementTime: secondsPast.toFixed(0),
 			sensors: [
 				{
 					value: parseFloat(latestTemp).toFixed(1),
