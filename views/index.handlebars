@@ -58,8 +58,9 @@
     <p class="lead">
 	    Data recorded {{measurementTime}} seconds ago
 	</p>
-    <hr>
+    {{#if graphtest}}<hr>{{/if}}
     {{/if}}
+    {{#if graphtest}}
   <div class="card-block">
     <p class="card-text">Content below is inaccurate, only for testing purposes. Graph is not correct in any way whatsoever.</p>
     <a href="#" class="card-link">Yes</a>
@@ -158,6 +159,7 @@
             window.myLine = new Chart(ctx, config);
         };
     </script>
+    {{/if}}
     
     <!-- Bootstrap core JavaScript
     ================================================== -->
