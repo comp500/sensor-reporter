@@ -48,7 +48,7 @@ app.get('/', function (req, res) {
 		var secondsPast = (now.getTime() - latestTime.getTime()) / 1000;
 		res.render("index", {
 			ready: true,
-			alextest: req.query.alextest,
+			graphtest: req.query.graphtest,
 			measurementTime: secondsPast.toFixed(0),
 			sensors: [
 				{
@@ -75,7 +75,7 @@ app.get('/', function (req, res) {
 	} else {
 		res.render("index", {
 			ready: false,
-			alextest: req.query.alextest
+			graphtest: req.query.graphtest
 		});
 	}
 });
