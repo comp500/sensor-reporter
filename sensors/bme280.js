@@ -2,6 +2,13 @@ var BME280 = require('node-bme280');
 var barometer = new BME280({address: 0x77});
 
 module.exports = function () {
+	barometer.begin(function(err) {
+	    if (err) {
+			console.info('error initializing barometer', err);
+			return;
+	    }
+	    console.info('barometer running');
+	});
 	return new Promise(function (resolve, reject) {
 		barometer.readPressureAndTemparature(function(err, pressure, temperature, humidity) {
 			latestTemp = temperature.toFixed(2);
