@@ -98,5 +98,5 @@ app.get('/output.csv', function (req, res) {
 });
 
 app.listen(80, function () {
-	console.log('Example app listening on port 80!');
+	console.log('Weather station online on port 80');
 });
