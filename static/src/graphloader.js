@@ -10,7 +10,7 @@ $(function() {
 					label: "Temperature",
 					backgroundColor: window.chartColors.red,
 					borderColor: window.chartColors.red,
-					data: ajaxdata,					],
+					data: ajaxdata,	
 					fill: false,
 				}]
 			},
