@@ -104,6 +104,10 @@ app.get('/output.csv', function (req, res) {
 	});
 });
 
+app.get('/data.json', function (req, res) {
+	res.send("[18, 22, 40]");
+});
+
 app.listen(80, function () {
 	console.log('Weather station online on port 80');
 });
