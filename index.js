@@ -22,6 +22,8 @@ barometer.begin(function(err) {
 	setInterval(readData, 60 * 1000);
 });
 
+var counter = 0;
+
 var readData = function () {
 	barometer.readPressureAndTemparature(function(err, pressure, temperature, humidity) {
 		latestTime = new Date();
@@ -29,12 +31,17 @@ var readData = function () {
 		latestPressure = (pressure / 100).toFixed(2);
 		latestHumidity = humidity.toFixed(2);
 		ready = true;
-		db.insert({
-			time: latestTime,
-			ambientTemperature: latestTemp,
-			pressure: latestPressure,
-			humidity: latestHumidity
-		});
+		if (counter > 0) {
+			counter = 0;
+			db.insert({
+				time: latestTime,
+				ambientTemperature: latestTemp,
+				pressure: latestPressure,
+				humidity: latestHumidity
+			});
+		} else {
+			counter++;   
+		}
 	});
 };
 
