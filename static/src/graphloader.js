@@ -43,14 +43,10 @@ $(function() {
  				}
  		}
  		};
- 		window.onload = function() {
- 			var ctx = document.getElementById("trunting").getContext("2d");
+			var ctx = document.getElementById("trunting").getContext("2d");
  			window.myLine = new Chart(ctx, config);
- 		};
- 		window.onload = function() {
- 			var ctx = document.getElementById("ambient").getContext("2d");
- 			window.myLine = new Chart(ctx, config);
- 		};
+			var ctx2 = document.getElementById("ambient").getContext("2d");
+ 			window.myLine = new Chart(ctx2, config);
 		});
   });
 
