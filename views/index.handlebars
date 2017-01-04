@@ -109,60 +109,7 @@
 		<div class="container">
 		</div>
 	</div>
-	<script>
-		var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-		var config = {
-			type: 'line',
-			data: {
-				labels: ["1800", "2000", "2200", "2400", "0200", "0400", "0600", "0800", "1000"],
-				datasets: [{
-					label: "Temperature",
-					backgroundColor: window.chartColors.red,
-					borderColor: window.chartColors.red,
-					data: [
-						{{data}}
-					],
-					fill: false,
-				}]
-			},
-			options: {
-				responsive: true,
-				tooltips: {
-					mode: 'index',
-					intersect: false,
-				},
-				hover: {
-					mode: 'nearest',
-					intersect: true
-				},
-				scales: {
-					xAxes: [{
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Time',
-							fontFamily: "serif"
-						}
-					}],
-					yAxes: [{
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Temperature'
-						}
-					}]
-				}
-			}
-		};
-		window.onload = function() {
-			var ctx = document.getElementById("trunting").getContext("2d");
-			window.myLine = new Chart(ctx, config);
-		};
-		window.onload = function() {
-			var ctx = document.getElementById("ambient").getContext("2d");
-			window.myLine = new Chart(ctx, config);
-		};
-	</script>
+	
 	{{/if}}
 
 	<!-- Bootstrap core JavaScript
@@ -175,8 +122,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
 	<script src="src/bootstrap.js"></script>
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-	<script src="src/ie10-viewport-bug-workaround.js"></script>
-
+	<script src="src/ie10-viewport-bug-workaround.js"></script>https://ajax.googleapis.com/ajax/libs/jq
+	<script src="src/graphloader.js">
 	</div>
 </body>
 
