@@ -14,7 +14,7 @@ module.exports = function () {
 						latestTemp = temperature.toFixed(2);
 						latestPressure = (pressure / 100).toFixed(2);
 						latestHumidity = humidity.toFixed(2);
-						resolve([
+						console.log([
 							{
 								sensorID: 1,
 								value: latestTemp,
@@ -41,6 +41,7 @@ module.exports = function () {
 								htmlDecimal: 0
 							}
 						]);
+						resolve();
 					});
 				}));
 			}
