@@ -30,7 +30,7 @@ $(function() {
  						scaleLabel: {
  							display: true,
  							labelString: 'Time (Mins ago)',
- 							fontFamily: "serif"
+ 							fontFamily: "sans-serif"
  						}
  					}],
  					yAxes: [{
