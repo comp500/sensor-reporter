@@ -9,8 +9,9 @@ var latestHumidity;
 var latestTime;
 var ready = false;
 
-var Datastore = require('nedb')
-  , db = new Datastore({ filename: 'data.txt', autoload: true });
+var Datastore = require('nedb');
+var dbLatest = new Datastore({ filename: 'latest.txt', autoload: true });
+var dbDaily = new Datastore({ filename: 'latest.txt', autoload: true });
  
 barometer.begin(function(err) {
     if (err) {
@@ -44,6 +45,14 @@ var readData = function () {
 		}
 	});
 };
+
+var consolidate = function (type) {
+	if (type == "day") {
+		
+	} else (type == "week") {
+		
+	}
+}
 
 app.engine('handlebars', exphbs({defaultLayout: false}));
 app.set('view engine', 'handlebars');
