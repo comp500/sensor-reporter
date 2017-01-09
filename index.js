@@ -47,7 +47,7 @@ var readData = function () {
 var consolidate = function (type) {
 	if (type == "day") {
 		
-	} else (type == "week") {
+	} else if (type == "week") {
 		
 	}
 };
