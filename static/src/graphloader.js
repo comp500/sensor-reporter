@@ -1,11 +1,11 @@
 $(function() { 
 	$.getJSON( "data.json", function( ajaxdata ) {
     	var items = [];
-		var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		//var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
  		var config = {
  			type: 'line',
  			data: {
- 				labels: ["-95", "-90", "-85", "-80", "-75", "-70", "--65", "-60", "-55", "-50", "-45", "-40", "-35", "-30", "-25", "-20", "-15", "-10", "-5", "0"],
+ 				labels: ["-95", "-90", "-85", "-80", "-75", "-70", "-65", "-60", "-55", "-50", "-45", "-40", "-35", "-30", "-25", "-20", "-15", "-10", "-5", "0"],
  				datasets: [{
  					label: "Temperature (&#176;C)",
  					backgroundColor: window.chartColors.red,
@@ -48,16 +48,16 @@ $(function() {
  			window.myLine = new Chart(ctx2, config);
 		});
   });
-
+/*
 $(function() { 
-	$.getJSON( "data.json", function( ajaxdatapress ) {
+	$.getJSON( "datapress.json", function( ajaxdatapress ) {
     	var items = [];
  		var config = {
  			type: 'line',
  			data: {
  				labels: ["-95", "-90", "-85", "-80", "-75", "-70", "--65", "-60", "-55", "-50", "-45", "-40", "-35", "-30", "-25", "-20", "-15", "-10", "-5", "0"],
  				datasets: [{
- 					label: "Pressure (&deg;C)",
+ 					label: "Pressure (hPa)",
  					backgroundColor: window.chartColors.red,
  					borderColor: window.chartColors.red,
  					data: ajaxdata,
@@ -87,7 +87,7 @@ $(function() {
  						display: true,
  						scaleLabel: {
  						display: true,
- 							labelString: 'Temperature'
+ 							labelString: 'Pressure (hPa)'
  						}
  					}]
  				}
@@ -98,3 +98,4 @@ $(function() {
  			window.myLine = new Chart(ctx2, config);
 		});
   });
+*/
