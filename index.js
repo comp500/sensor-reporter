@@ -105,7 +105,17 @@ app.get('/output.csv', function (req, res) {
 });
 
 app.get('/data.json', function (req, res) {
-	res.send("[18, 22, 40]");
+	db.find({ $where: function () {return (this.time % 5) == 0} }).sort({ time: 1 }).limit(20).exec(function (err, docs) {
+		res.write("[")
+		for (var i = 0; i < docs.length; i++) {
+			res.write(docs[i].ambientTemperature);
+			if (i < (docs.length - 1)) {
+				res.write(",");
+			}
+		}
+		res.write("]");
+		res.end();
+	});
 });
 
 app.listen(80, function () {
