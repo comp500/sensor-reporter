@@ -10,8 +10,11 @@ var latestTime;
 var ready = false;
 
 var Datastore = require('nedb');
-var db = new Datastore({ filename: 'data.txt', autoload: true });
-//var dbDaily = new Datastore({ filename: 'latest.txt', autoload: true });
+var dateFormat = require('dateformat');
+var open = new Date();
+var db = new Datastore({ filename: 'latest.txt', autoload: true }); // 1 min, rename to dbLatest
+var dbDaily = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "day.txt", autoload: true }); // 5 mins
+var dbWeekly = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "week.txt", autoload: true }); // 1 hour
  
 barometer.begin(function(err) {
     if (err) {
@@ -32,17 +35,12 @@ var readData = function () {
 		latestPressure = (pressure / 100).toFixed(2);
 		latestHumidity = humidity.toFixed(2);
 		ready = true;
-		if (counter > 0) {
-			counter = 0;
-			db.insert({
-				time: latestTime,
-				ambientTemperature: latestTemp,
-				pressure: latestPressure,
-				humidity: latestHumidity
-			});
-		} else {
-			counter++;   
-		}
+		db.insert({
+			time: latestTime,
+			ambientTemperature: latestTemp,
+			pressure: latestPressure,
+			humidity: latestHumidity
+		});
 	});
 };
 
@@ -52,7 +50,7 @@ var consolidate = function (type) {
 	} else (type == "week") {
 		
 	}
-}
+};
 
 app.engine('handlebars', exphbs({defaultLayout: false}));
 app.set('view engine', 'handlebars');
