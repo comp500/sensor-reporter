@@ -105,7 +105,7 @@ app.get('/output.csv', function (req, res) {
 });
 
 app.get('/data.json', function (req, res) {
-	db.find({ $where: function () {return (this.time % 5) == 0} }).sort({ time: 1 }).limit(20).exec(function (err, docs) {
+	db.find({ $where: function () {return (this.time % 5) == 0} }).sort({ time: -1 }).limit(20).exec(function (err, docs) {
 		res.write("[")
 		for (var i = 0; i < docs.length; i++) {
 			res.write(docs[i].ambientTemperature);
