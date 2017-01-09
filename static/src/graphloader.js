@@ -7,7 +7,7 @@ $(function() {
  			data: {
  				labels: ["-95", "-90", "-85", "-80", "-75", "-70", "--65", "-60", "-55", "-50", "-45", "-40", "-35", "-30", "-25", "-20", "-15", "-10", "-5", "0"],
  				datasets: [{
- 					label: "Temperature",
+ 					label: "Temperature (&#176;C)",
  					backgroundColor: window.chartColors.red,
  					borderColor: window.chartColors.red,
  					data: ajaxdata,
@@ -29,7 +29,7 @@ $(function() {
  						display: true,
  						scaleLabel: {
  							display: true,
- 							labelString: 'Time',
+ 							labelString: 'Time (Mins ago)',
  							fontFamily: "serif"
  						}
  					}],
