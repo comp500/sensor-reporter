@@ -5,7 +5,7 @@ $(function() {
  		var config = {
  			type: 'line',
  			data: {
- 				labels: ["1800", "2000", "2200", "2400", "0200", "0400", "0600", "0800", "1000"],
+ 				labels: ["-95", "-90", "-85", "-80", "-75", "-70", "--65", "-60", "-55", "-50", "-45", "-40", "-35", "-30", "-25", "-20", "-15", "-10", "-5", "0"],
  				datasets: [{
  					label: "Temperature",
  					backgroundColor: window.chartColors.red,
