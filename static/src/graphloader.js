@@ -48,7 +48,7 @@ $(function() {
  			window.myLine = new Chart(ctx2, config);
 		});
 	window.setTimeout(function () {
-		document.getElementById("measurementTime").value = document.getElementById("measurementTime").value + 1;
+		document.getElementById("measurementTime").innerText = parseInt(document.getElementById("measurementTime").innerText) + 1;
 	}, 1000);
   });
 /*
