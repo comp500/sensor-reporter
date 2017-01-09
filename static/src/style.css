@@ -14,3 +14,9 @@ body {
 #center {
     text-align: center  
 }
+.alert-warning {
+  background-color: #FF9800;
+  color: #ccccc;
+  border: 0px;
+  border-radius:0px;
+}
