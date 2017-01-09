@@ -47,7 +47,7 @@ $(function() {
 			var ctx2 = document.getElementById("ambient").getContext("2d");
  			window.myLine = new Chart(ctx2, config);
 		});
-	window.setTimeout(function () {
+	window.setInterval(function () {
 		document.getElementById("measurementTime").innerText = parseInt(document.getElementById("measurementTime").innerText) + 1;
 	}, 1000);
   });
