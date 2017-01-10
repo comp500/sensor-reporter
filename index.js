@@ -8,6 +8,7 @@ var latestPressure;
 var latestHumidity;
 var latestTime;
 var ready = false;
+var config = require('static/src/config')
 
 var Datastore = require('nedb');
 var dateFormat = require('dateformat');
