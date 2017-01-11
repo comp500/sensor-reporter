@@ -24,7 +24,7 @@ barometer.begin(function (err) {
     }
     console.info('barometer running');
 	setImmediate(readData);
-	setInterval(readData, baroInterval);
+	setInterval(readData, config.baroInterval);
 });
 
 var counter = 0;
