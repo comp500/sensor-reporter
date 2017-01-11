@@ -1,5 +1,6 @@
 var express = require('express');
 var exphbs  = require('express-handlebars');
+var config = require('config')
 var app = express();
 var BME280 = require('node-bme280');
 var barometer = new BME280({address: 0x77});
@@ -16,14 +17,14 @@ var db = new Datastore({ filename: 'latest.txt', autoload: true }); // 1 min, re
 var dbDaily = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "day.txt", autoload: true }); // 5 mins
 var dbWeekly = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "week.txt", autoload: true }); // 1 hour
  
-barometer.begin(function(err) {
+barometer.begin(function (err) {
     if (err) {
         console.info('error initializing barometer', err);
         return;
     }
     console.info('barometer running');
 	setImmediate(readData);
-	setInterval(readData, 60 * 1000);
+	setInterval(readData, baroInterval);
 });
 
 var counter = 0;
