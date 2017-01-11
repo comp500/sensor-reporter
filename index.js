@@ -1,6 +1,6 @@
 var express = require('express');
 var exphbs  = require('express-handlebars');
-var config = require('./config.js')
+var config = require('./config.js');
 var app = express();
 var BME280 = require('node-bme280');
 var barometer = new BME280({address: 0x77});
