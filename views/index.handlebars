@@ -88,8 +88,8 @@
 		<div class="col-md-6">
 			<div class="card">
 				<div class="card-block">
-					<h4 class="card-title">Temperature</h4>
-					<h6 class="card-subtitle text-muted">Sensor 0</h6>
+					<h4 class="card-title">Pressure</h4>
+					<h6 class="card-subtitle text-muted">Sensor 1</h6>
 				</div>
 				<div style="width:90%; margin-left:5%; margin-bottom: 5%;">
 					<canvas id="pressure"></canvas>
@@ -100,6 +100,38 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-block">
+					<h4 class="card-title">Humidity</h4>
+					<h6 class="card-subtitle text-muted">Sensor 2</h6>
+				</div>
+				<div style="width:90%; margin-left:5%; margin-bottom: 5%;">
+					<canvas id="humidity"></canvas>
+				</div>
+
+				<div class="card-footer text-muted">
+					Data recorded <span id="measurementTime">{{measurementTime}}</span> seconds ago
+				</div>
+			</div>
+		</div>
+		<!-- <div class="col-md-6">
+			<div class="card">
+				<div class="card-block">
+					<h4 class="card-title">Temperature</h4>
+					<h6 class="card-subtitle text-muted">Sensor 0</h6>
+				</div>
+				<div style="width:90%; margin-left:5%; margin-bottom: 5%;">
+					<canvas id=""></canvas>
+				</div>
+
+				<div class="card-footer text-muted">
+					Data recorded <span id="measurementTime">{{measurementTime}}</span> seconds ago
+				</div>
+			</div>
+		</div>-->
 	</div>
 	<div class="container">
 		<div class="base">
