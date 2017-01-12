@@ -120,7 +120,6 @@ app.get('/data.json', function (req, res) {
 			humidity: []
 		};
 		for (var i = 0; i < docs.length; i++) {
-			res.write(docs[i].ambientTemperature);
 			dataObject.ambientTemperature.push(docs[i].ambientTemperature);
 			dataObject.pressure.push(docs[i].pressure);
 			dataObject.humidity.push(docs[i].humidity);
