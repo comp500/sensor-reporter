@@ -61,7 +61,7 @@ $(function() {
  					label: "Pressure (hPa)",
  					backgroundColor: window.chartColors.red,
  					borderColor: window.chartColors.red,
- 					data: ajaxdata.pressure,
+ 					data: ajaxdata.humidity,
  					fill: false,
  				}]
  			},
@@ -88,14 +88,14 @@ $(function() {
  						display: true,
  						scaleLabel: {
  						display: true,
- 							labelString: 'Pressure (hPa)'
+ 							labelString: 'Humidity (%)'
  						}
  					}]
  				}
  		}
  		};
 
-			var ctx2 = document.getElementById("pressure").getContext("2d");
+			var ctx2 = document.getElementById("humidity").getContext("2d");
  			window.myLine = new Chart(ctx2, config);
 		});
   });
