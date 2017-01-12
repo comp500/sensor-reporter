@@ -13,9 +13,9 @@ var ready = false;
 var Datastore = require('nedb');
 var dateFormat = require('dateformat');
 var open = new Date();
-var db = new Datastore({ filename: 'latest.txt', autoload: true }); // 1 min, rename to dbLatest
-var dbDaily = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "day.txt", autoload: true }); // 5 mins
-var dbWeekly = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "week.txt", autoload: true }); // 1 hour
+var db = new Datastore({ filename: 'latest.txt', autoload: true }); // rename to dbLatest
+var dbDaily = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "day.txt", autoload: true });
+var dbWeekly = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "week.txt", autoload: true }); // fix file name for each week not day
  
 barometer.begin(function (err) {
     if (err) {
