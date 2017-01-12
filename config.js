@@ -1,3 +1,5 @@
-var baroInterval = 60 * 1000; // 1 minute readings for Pressure
-var tempInterval = 60 * 1000; // 1 minute readings for Temperature
-var humiInterval = 60 * 1000; // 1 minute readings for Humidity
+module.exports = {
+	baroInterval: 60 * 1000, // 1 minute readings for Pressure
+	tempInterval: 60 * 1000, // 1 minute readings for Temperature
+	humiInterval: 60 * 1000 // 1 minute readings for Humidity
+};
