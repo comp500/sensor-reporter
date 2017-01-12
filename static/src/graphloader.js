@@ -1,7 +1,6 @@
 $(function() { 
 	$.getJSON( "data.json", function( ajaxdata ) {
     	var items = [];
-		//var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
  		var config = {
  			type: 'line',
  			data: {
@@ -10,7 +9,7 @@ $(function() {
  					label: "Temperature (" + String.fromCharCode(176) + "C)",
  					backgroundColor: window.chartColors.red,
  					borderColor: window.chartColors.red,
- 					data: ajaxdata,
+ 					data: ajaxdata.ambientTemperature,
  					fill: false,
  				}]
  			},
@@ -51,9 +50,8 @@ $(function() {
 		document.getElementById("measurementTime").innerText = parseInt(document.getElementById("measurementTime").innerText) + 1;
 	}, 1000);
   });
-/*
 $(function() { 
-	$.getJSON( "datapress.json", function( ajaxdatapress ) {
+	$.getJSON( "data.json", function( ajaxdata ) {
     	var items = [];
  		var config = {
  			type: 'line',
@@ -63,7 +61,7 @@ $(function() {
  					label: "Pressure (hPa)",
  					backgroundColor: window.chartColors.red,
  					borderColor: window.chartColors.red,
- 					data: ajaxdata,
+ 					data: ajaxdata.pressure,
  					fill: false,
  				}]
  			},
@@ -97,8 +95,7 @@ $(function() {
  		}
  		};
 
-			var ctx2 = document.getElementById("ambient").getContext("2d");
+			var ctx2 = document.getElementById("pressure").getContext("2d");
  			window.myLine = new Chart(ctx2, config);
 		});
   });
-*/
