@@ -38,7 +38,7 @@
 		</ul>
 	</nav>
 	<div class="alert alert-warning" style="margin-top:-1.75em" role="alert">
-		<strong>Warning!</strong> This is not production software
+		<strong>Warning!</strong> <strike>This is not production software</strike>
 	</div>
 	{{#unless ready}}
 	<div class="alert alert-warning" style="margin-top:-1.75em" role="alert">
@@ -60,10 +60,10 @@
 		<p class="lead">
 			Data recorded <span id="measurementTime">{{measurementTime}}</span> seconds ago
 		</p>
-		{{#if graphtest}}
-		<hr>{{/if}} {{/if}} {{#if graphtest}}
-		<div class="alert alert-warning" style="margin-top:-1.75em" role="alert">
-		<strong>Warning!</strong> This data is most likley incorrect, and if it isn't; that's amazing!
+	
+		<hr>
+		<div class="alert alert-success" style="margin-top:-1.75em" role="alert">
+		<strong>Finally</strong> Graphing has become reliable; as a result the graphs are shown below
 	</div>
 	</div>
 	</div>
@@ -98,9 +98,10 @@
 				<div class="card-footer text-muted">
 					Data recorded <span id="measurementTime">{{measurementTime}}</span> seconds ago
 				</div>
-			</div>
+{{/if}}			</div>
 		</div>
 	</div>
+	 {{#if graphtest}}
 	<div class="row">
 		<div class="col-md-6">
 			<div class="card">
@@ -133,6 +134,8 @@
 			</div>
 		</div>-->
 	</div>
+	
+	{{#if dev}}
 	<div class="container">
 		<div class="base">
 			<h1>Data</h1>
