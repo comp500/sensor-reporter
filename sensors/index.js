@@ -5,6 +5,7 @@ var promises = [
 	optional("./ds18b20.js")
 ];
 
-module.exports = new Promise(function (resolve, reject) {
+module.exports = {};
+module.exports.load = new Promise(function (resolve, reject) {
 	
 });
