@@ -32,9 +32,9 @@ var counter = 0;
 var readData = function () {
 	barometer.readPressureAndTemparature(function(err, pressure, temperature, humidity) {
 		latestTime = new Date();
-		latestTemp = temperature.toFixed(2);
-		latestPressure = (pressure / 100).toFixed(2);
-		latestHumidity = humidity.toFixed(2);
+		latestTemp = temperature.toFixed(1);
+		latestPressure = (pressure / 100).toFixed(0);
+		latestHumidity = humidity.toFixed(0);
 		ready = true;
 		db.insert({
 			time: latestTime,
