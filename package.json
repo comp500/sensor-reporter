@@ -6,6 +6,7 @@
   "dependencies": {
     "dateformat": "^2.0.0",
     "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
     "nedb": "^1.8.0",
     "node-bme280": "^0.1.3"
   },
