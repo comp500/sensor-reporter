@@ -104,9 +104,9 @@ app.get('/output.csv', function (req, res) {
 			var formattedTime = time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
 			var formattedDateTime = formattedDate + " " + formattedTime; // github doesn't like long lines
 			res.write(formattedDateTime + ",");
-			res.write(docs[i].ambientTemperature.toFixed(1) + ",");
-			res.write(docs[i].pressure.toFixed(0) + ",");
-			res.write(docs[i].humidity.toFixed(0) + "\n");
+			res.write(docs[i].ambientTemperature.toFixed(config.ambientTemperature.exportDecimal) + ",");
+			res.write(docs[i].pressure.toFixed(config.pressure.exportDecimal) + ",");
+			res.write(docs[i].humidity.toFixed(config.humidity.exportDecimal) + "\n");
 		}
 		res.end();
 	});
@@ -120,9 +120,9 @@ app.get('/data.json', function (req, res) {
 			humidity: []
 		};
 		for (var i = 0; i < docs.length; i++) {
-			dataObject.ambientTemperature.toFixed(1).push(docs[i].ambientTemperature);
-			dataObject.pressure.toFixed(0).push(docs[i].pressure);
-			dataObject.humidity.toFixed(0).push(docs[i].humidity);
+			dataObject.ambientTemperature.toFixed(config.ambientTemperature.graphDecimal).push(docs[i].ambientTemperature);
+			dataObject.pressure.toFixed(config.pressure.graphDecimal).push(docs[i].pressure);
+			dataObject.humidity.toFixed(config.humidity.graphDecimal).push(docs[i].humidity);
 		}
 		res.send(JSON.stringify(dataObject));
 	});
