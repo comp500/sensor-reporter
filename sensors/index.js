@@ -11,3 +11,11 @@ module.exports.load = new Promise(function (resolve, reject) {
 		resolve();
 	});
 });
+
+module.exports.run = new Promise(function (resolve, reject) {
+	process.nextTick(function () {
+		Promise.all(promises).then(function () {
+			
+		});
+	});
+});
