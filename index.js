@@ -32,9 +32,9 @@ var counter = 0;
 var readData = function () {
 	barometer.readPressureAndTemparature(function(err, pressure, temperature, humidity) {
 		latestTime = new Date();
-		latestTemp = temperature.toFixed(1);
-		latestPressure = (pressure / 100).toFixed(0);
-		latestHumidity = humidity.toFixed(0);
+		latestTemp = temperature.toFixed(2);
+		latestPressure = (pressure / 100).toFixed(2);
+		latestHumidity = humidity.toFixed(2);
 		ready = true;
 		db.insert({
 			time: latestTime,
@@ -104,9 +104,9 @@ app.get('/output.csv', function (req, res) {
 			var formattedTime = time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
 			var formattedDateTime = formattedDate + " " + formattedTime; // github doesn't like long lines
 			res.write(formattedDateTime + ",");
-			res.write(docs[i].ambientTemperature + ",");
-			res.write(docs[i].pressure + ",");
-			res.write(docs[i].humidity + "\n");
+			res.write(docs[i].ambientTemperature.toFixed(1) + ",");
+			res.write(docs[i].pressure.toFixed(0) + ",");
+			res.write(docs[i].humidity.toFixed(0) + "\n");
 		}
 		res.end();
 	});
@@ -120,9 +120,9 @@ app.get('/data.json', function (req, res) {
 			humidity: []
 		};
 		for (var i = 0; i < docs.length; i++) {
-			dataObject.ambientTemperature.push(docs[i].ambientTemperature);
-			dataObject.pressure.push(docs[i].pressure);
-			dataObject.humidity.push(docs[i].humidity);
+			dataObject.ambientTemperature.toFixed(1).push(docs[i].ambientTemperature);
+			dataObject.pressure.toFixed(0).push(docs[i].pressure);
+			dataObject.humidity.toFixed(0).push(docs[i].humidity);
 		}
 		res.send(JSON.stringify(dataObject));
 	});
