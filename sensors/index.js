@@ -13,9 +13,10 @@ module.exports.load = new Promise(function (resolve, reject) {
 });
 
 module.exports.run = new Promise(function (resolve, reject) {
-	process.nextTick(function () {
-		Promise.all(promises).then(function () {
-			
-		});
+	Promise.all(promises).then(function (values) {
+		
+		resolve();
+	}).catch(function (reason) {
+		
 	});
 });
