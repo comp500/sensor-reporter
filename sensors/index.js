@@ -12,7 +12,7 @@ module.exports.load = function () {
 			resolve();
 		});
 	});
-});
+};
 
 module.exports.run = function () {
 	return new Promise(function (resolve, reject) {
@@ -26,4 +26,4 @@ module.exports.run = function () {
 			reject(reason);
 		});
 	});
-});
+};
