@@ -127,9 +127,7 @@ app.get('/data.json', function (req, res) {
 		res.send(JSON.stringify(dataObject));
 	});
 });
-app.get('/output', function (req, res) {
-		res.render("output");
-});
+
 app.listen(80, function () {
 	console.log('Weather station online on port 80');
 });
