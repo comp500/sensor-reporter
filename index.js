@@ -47,10 +47,8 @@ var readData = function () {
 
 var consolidate = function (type) {
 	if (type == "day") {
-		
 	} else if (type == "week") {
-		
-	}
+	};
 };
 
 app.engine('handlebars', exphbs({defaultLayout: false}));
@@ -92,7 +90,7 @@ app.get('/', function (req, res) {
 			ready: false,
 			graphtest: req.query.graphtest
 		});
-	}
+	};
 });
 
 app.get('/output.csv', function (req, res) {
