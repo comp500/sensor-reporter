@@ -118,13 +118,13 @@ app.get('/data.json', function (req, res) {
 			pressure: [],
 			humidity: []
 		};
+		console.log(i);
 		for (var i = 0; i < docs.length; i++) {
 			dataObject.ambientTemperature.push(parseFloat(docs[i].ambientTemperature).toFixed(config.ambientTemperature.graphDecimal));
 			dataObject.pressure.push(parseFloat(docs[i].pressure).toFixed(config.pressure.graphDecimal));
 			dataObject.humidity.push(parseFloat(docs[i].humidity).toFixed(config.humidity.graphDecimal));
 		}
 		console.dir(dataObject);
-		console.log(i);
 		res.send(JSON.stringify(dataObject));
 	});
 });
