@@ -118,9 +118,9 @@ app.get('/data.json', function (req, res) {
 			humidity: []
 		};
 		for (var i = 0; i < docs.length; i++) {
-			dataObject.ambientTemperature.toFixed(config.ambientTemperature.graphDecimal).push(docs[i].ambientTemperature);
-			dataObject.pressure.toFixed(config.pressure.graphDecimal).push(docs[i].pressure);
-			dataObject.humidity.toFixed(config.humidity.graphDecimal).push(docs[i].humidity);
+			dataObject.ambientTemperature.push(docs[i].ambientTemperature.toFixed(config.ambientTemperature.graphDecimal));
+			dataObject.pressure.push(docs[i].pressure.toFixed(config.pressure.graphDecimal));
+			dataObject.humidity.push(docs[i].humidity.toFixed(config.humidity.graphDecimal));
 		}
 		res.send(JSON.stringify(dataObject));
 	});
