@@ -111,7 +111,8 @@ app.get('/output.csv', function (req, res) {
 });
 
 app.get('/data.json', function (req, res) {
-	db.find({ $where: function () {console.log(this); return (this.time % 5) == 0} }).sort({ time: -1 }).limit(20).exec(function (err, docs) {
+	var i = 0;
+	db.find({ $where: function () {var value = i % 5; i++; return value == 0;} }).sort({ time: -1 }).limit(20).exec(function (err, docs) {
 		var dataObject = {
 			ambientTemperature: [],
 			pressure: [],
