@@ -112,7 +112,7 @@ app.get('/output.csv', function (req, res) {
 
 app.get('/data.json', function (req, res) {
 	var i = 0;
-	db.find({ $where: function () {var value = i % 5; i++; if (i < 100) {console.log(i); console.log(value);} return value == 0;} }).sort({ time: -1 }).limit(20).exec(function (err, docs) {
+	db.find({ $where: function () {var value = i % 5; if (i < 100) {console.log(i); console.log(value);} i++; return value == 0;} }).sort({ time: -1 }).limit(20).exec(function (err, docs) {
 		var dataObject = {
 			ambientTemperature: [],
 			pressure: [],
