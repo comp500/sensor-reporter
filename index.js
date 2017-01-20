@@ -123,6 +123,8 @@ app.get('/data.json', function (req, res) {
 			dataObject.pressure.push(parseFloat(docs[i].pressure).toFixed(config.pressure.graphDecimal));
 			dataObject.humidity.push(parseFloat(docs[i].humidity).toFixed(config.humidity.graphDecimal));
 		}
+		console.dir(dataObject);
+		console.log(i);
 		res.send(JSON.stringify(dataObject));
 	});
 });
