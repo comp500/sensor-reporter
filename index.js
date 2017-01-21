@@ -1,42 +1,47 @@
+// set requirements
 const express = require('express');
 const exphbs  = require('express-handlebars');
 const config = require('./config.js');
 const app = express();
 const BME280 = require('node-bme280');
 const barometer = new BME280({address: 0x77});
+// define variables
 var latestTemp;
 var latestPressure;
 var latestHumidity;
 var latestTime;
 var ready = false;
 
+// open datastores
 var Datastore = require('nedb');
 var dateFormat = require('dateformat');
 var open = new Date();
 var db = new Datastore({ filename: 'latest.txt', autoload: true }); // rename to dbLatest
-var dbDaily = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "day.txt", autoload: true });
-var dbWeekly = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "week.txt", autoload: true }); // fix file name for each week not day
+//var dbDaily = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "day.txt", autoload: true });
+//var dbWeekly = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "week.txt", autoload: true }); // fix file name for each week not day
  
+// initialise barometer
 barometer.begin(function (err) {
     if (err) {
         console.info('error initializing barometer', err);
         return;
     }
     console.info('barometer running');
+	// read first measurement immediately
 	setImmediate(readData);
+	// read measurements on interval
 	setInterval(readData, config.ambientTemperature.interval);
 });
 
-var counter = 0;
-
 var readData = function () {
+	// read data from sensor
 	barometer.readPressureAndTemparature(function(err, pressure, temperature, humidity) {
-		latestTime = new Date();
-		latestTemp = temperature.toFixed(2);
+		latestTime = new Date(); // get current time/date
+		latestTemp = temperature.toFixed(2); // store to 2dp TODO: make this use config file
 		latestPressure = (pressure / 100).toFixed(2);
 		latestHumidity = humidity.toFixed(2);
-		ready = true;
-		db.insert({
+		ready = true; // tell webpage that measurements are available
+		db.insert({ // insert data in database
 			time: latestTime,
 			ambientTemperature: latestTemp,
 			pressure: latestPressure,
@@ -45,21 +50,22 @@ var readData = function () {
 	});
 };
 
-var consolidate = function (type) {
+var consolidate = function (type) { // not done
 	if (type == "day") {
 	} else if (type == "week") {
 	};
 };
 
+// start handlebars
 app.engine('handlebars', exphbs({defaultLayout: false}));
 app.set('view engine', 'handlebars');
-app.use(express.static('static'));
+app.use(express.static('static')); // use static folder
 
-app.get('/', function (req, res) {
+app.get('/', function (req, res) { // homepage
 	if (ready) {
-		var now = new Date();
-		var secondsPast = (now.getTime() - latestTime.getTime()) / 1000;
-		res.render("index", {
+		var now = new Date(); // get current time
+		var secondsPast = (now.getTime() - latestTime.getTime()) / 1000; // get seconds from recorded time
+		res.render("index", { // display ready page with sensor data
 			ready: true,
 			graphtest: req.query.graphtest,
 			measurementTime: secondsPast.toFixed(0),
@@ -86,46 +92,45 @@ app.get('/', function (req, res) {
 			]
 		});
 	} else {
-		res.render("index", {
+		res.render("index", { // show not ready page
 			ready: false,
 			graphtest: req.query.graphtest
 		});
 	};
 });
 
-app.get('/output.csv', function (req, res) {
-	db.find({}).sort({ time: 1 }).exec(function (err, docs) {
-		res.write("Time,Temperature,Pressure,Humidity\n");
-		for (var i = 0; i < docs.length; i++) {
-			var time = docs[i].time;
-			var formattedDate = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate();
+app.get('/output.csv', function (req, res) { // for export csv file
+	db.find({}).sort({ time: 1 }).exec(function (err, docs) { // find all records and sort
+		res.write("Time,Temperature,Pressure,Humidity\n"); // titles
+		for (var i = 0; i < docs.length; i++) { // for every document
+			var time = docs[i].time; // time when recorded
+			var formattedDate = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate(); // format time/date for excel format
 			var formattedTime = time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
 			var formattedDateTime = formattedDate + " " + formattedTime; // github doesn't like long lines
-			res.write(formattedDateTime + ",");
+			res.write(formattedDateTime + ","); // write time/date
+			// write sensor data
 			res.write(parseFloat(docs[i].ambientTemperature).toFixed(config.ambientTemperature.exportDecimal) + ",");
 			res.write(parseFloat(docs[i].pressure).toFixed(config.pressure.exportDecimal) + ",");
 			res.write(parseFloat(docs[i].humidity).toFixed(config.humidity.exportDecimal) + "\n");
 		}
-		res.end();
+		res.end(); // end response
 	});
 });
 
 app.get('/data.json', function (req, res) {
-	var i = 0;
-	db.find({}).sort({ time: -1 }).limit(100).exec(function (err, docs) {
-		// TODO: query newest (20 x 5) measurements, average them to get averages over every 5 minutes
-		var dataObject = {
+	db.find({}).sort({ time: -1 }).limit(100).exec(function (err, docs) { // query 100 newest entries, newest first
+		var dataObject = { // output object
 			ambientTemperature: [],
 			pressure: [],
 			humidity: []
 		};
-		var average = {
+		var average = { // running mean object
 			ambientTemperature: 0,
 			pressure: 0,
 			humidity: 0
 		};
 		for (var i = 0; i < docs.length; i++) {
-			average.ambientTemperature += parseFloat(docs[i].ambientTemperature);
+			average.ambientTemperature += parseFloat(docs[i].ambientTemperature); // add data to mean object
 			average.pressure += parseFloat(docs[i].pressure);
 			average.humidity += parseFloat(docs[i].humidity);
 			if ((i % 5) == 4) { // every 5 minutes
@@ -143,10 +148,10 @@ app.get('/data.json', function (req, res) {
 			}
 		}
 		console.dir(dataObject);
-		res.send(JSON.stringify(dataObject));
+		res.send(JSON.stringify(dataObject)); // send data
 	});
 });
 
-app.listen(80, function () {
+app.listen(80, function () { // listen on port 80
 	console.log('Weather station online on port 80');
 });
