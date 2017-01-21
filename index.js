@@ -112,17 +112,35 @@ app.get('/output.csv', function (req, res) {
 
 app.get('/data.json', function (req, res) {
 	var i = 0;
-	db.find({ $where: function () {var value = i % 5; if (i < 100) {console.log(i); console.log(value);} i++; return value == 0;} }).sort({ time: -1 }).limit(20).exec(function (err, docs) {
+	db.find({}).sort({ time: -1 }).limit(100).exec(function (err, docs) {
 		// TODO: query newest (20 x 5) measurements, average them to get averages over every 5 minutes
 		var dataObject = {
 			ambientTemperature: [],
 			pressure: [],
 			humidity: []
 		};
+		var average = {
+			ambientTemperature: 0,
+			pressure: 0,
+			humidity: 0
+		};
 		for (var i = 0; i < docs.length; i++) {
-			dataObject.ambientTemperature.push(parseFloat(docs[i].ambientTemperature).toFixed(config.ambientTemperature.graphDecimal));
-			dataObject.pressure.push(parseFloat(docs[i].pressure).toFixed(config.pressure.graphDecimal));
-			dataObject.humidity.push(parseFloat(docs[i].humidity).toFixed(config.humidity.graphDecimal));
+			average.ambientTemperature += parseFloat(docs[i].ambientTemperature);
+			average.pressure += parseFloat(docs[i].pressure);
+			average.humidity += parseFloat(docs[i].humidity);
+			if ((i % 5) == 4) { // every 5 minutes
+				var meanAmbientTemperature = average.ambientTemperature / 5; // calculate means
+				var meanPressure = average.pressure / 5;
+				var meanHumidity = average.humidity / 5;
+				dataObject.ambientTemperature.push(meanAmbientTemperature.toFixed(config.ambientTemperature.graphDecimal)); // push to output
+				dataObject.pressure.push(meanPressure.toFixed(config.pressure.graphDecimal));
+				dataObject.humidity.push(meanHumidity.toFixed(config.humidity.graphDecimal));
+				average = { // reset averages
+					ambientTemperature: 0,
+					pressure: 0,
+					humidity: 0
+				};
+			}
 		}
 		console.dir(dataObject);
 		res.send(JSON.stringify(dataObject));
