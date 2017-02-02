@@ -16,7 +16,11 @@ module.exports.load = function () {
 
 module.exports.run = function () {
 	return new Promise(function (resolve, reject) {
-		Promise.all(promises).then(function (values) {
+		var calledPromises = [];
+		for (var i = 0; i < promises.length; i++) {
+			calledPromises[i] = promises[i]();
+		}
+		Promise.all(calledPromises).then(function (values) {
 			var sensors = [];
 			for (var i = 0; i < values.length; i++) {
 				sensors.concat(values[i]);
