@@ -41,7 +41,7 @@ module.exports = function () {
 								htmlDecimal: 0
 							}
 						]);
-						resolve();
+						//resolve();
 					});
 				}));
 			}
