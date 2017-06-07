@@ -28,29 +28,17 @@ module.exports.getData = function () {
 			var latestHumidity = humidity.toFixed(2);
 			resolve([
 				{
+					sensorID: 0,
+					value: latestTemp
+				},
+				{
 					sensorID: 1,
-					value: latestTemp,
-					unit: "&#176;C",
-					measurement: "Temperature",
-					location: "ICT office",
-					htmlDecimal: 1
+					value: latestHumidity,
+					
 				},
 				{
 					sensorID: 2,
-					value: latestHumidity,
-					unit: "%",
-					measurement: "Humidity",
-					location: "ICT office",
-					htmlDecimal: 1
-				},
-				{
-					sensorID: 3,
 					value: latestPressure,
-					unit: "hPa",
-					small: true,
-					measurement: "Pressure",
-					location: "ICT office",
-					htmlDecimal: 0
 				}
 			]);
 		});
