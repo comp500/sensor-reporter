@@ -20,6 +20,9 @@ module.exports.load = function () {
 module.exports.getData = function () {
 	return new Promise(function (resolve, reject) {
 		barometer.readPressureAndTemparature(function(err, pressure, temperature, humidity) {
+			if (err) {
+				reject(err);
+			}
 			latestTemp = temperature.toFixed(2);
 			latestPressure = (pressure / 100).toFixed(2);
 			latestHumidity = humidity.toFixed(2);
