@@ -60,7 +60,6 @@ app.get('/', function (req, res) { // homepage
 		var secondsPast = (now.getTime() - latestTime.getTime()) / 1000; // get seconds from recorded time
 		res.render("index", { // display ready page with sensor data
 			ready: true,
-			graphtest: req.query.graphtest,
 			measurementTime: secondsPast.toFixed(0),
 			sensors: [
 				{
@@ -86,8 +85,7 @@ app.get('/', function (req, res) { // homepage
 		});
 	} else {
 		res.render("index", { // show not ready page
-			ready: false,
-			graphtest: req.query.graphtest
+			ready: false
 		});
 	};
 });
