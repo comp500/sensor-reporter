@@ -1,9 +1,9 @@
 var index = require("./index.js");
 
 index.load().then(()=>{
-	setInterval(()=>{
+	//setInterval(()=>{
 		index.run().then((e)=>{
 			console.dir(e);
 		}).catch((e)=>console.error(e));
-	}, 1000);
+	//}, 1000);
 }).catch((e)=>console.error(e));
