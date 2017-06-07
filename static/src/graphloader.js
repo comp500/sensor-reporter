@@ -78,8 +78,6 @@ $(function() {
  				scales: {
  				xAxes: [{
  						display: true,
-						min: 10,
-						max: 95,
  						scaleLabel: {
  							display: true,
  							labelString: 'Time (Mins ago)',
@@ -88,6 +86,8 @@ $(function() {
  					}],
  					yAxes: [{
  						display: true,
+						min: 10,
+						max: 95,
  						scaleLabel: {
  						display: true,
  							labelString: 'Humidity (%)'
