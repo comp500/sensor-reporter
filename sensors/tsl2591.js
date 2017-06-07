@@ -8,17 +8,20 @@ module.exports = {};
 
 module.exports.load = function () {
 	return new Promise(function (resolve, reject) {
-		
+		light.init({AGAIN: 2, ATIME: 1}, function(err) {
+			if (err) {
+				reject(err);
+			} else {
+				console.log('TSL2591 ready');
+				resolve();
+			}
+		});
 	});
 }
-light.init({AGAIN: 2, ATIME: 1}, function(err) {
-    if (err) {
-        console.log(err);
-        process.exit(-1);
-    } else {
-        console.log('TSL2591 ready');
-        setInterval(function() {
-            light.readLuminosity(function(err, data) {
+
+module.exports.getData = function () {
+	return new Promise(function (resolve, reject) {
+		light.readLuminosity(function(err, data) {
             if (err) {
                 console.log(err);
             }
@@ -27,13 +30,7 @@ light.init({AGAIN: 2, ATIME: 1}, function(err) {
             }
             var raw = data.vis_ir;
             console.log(data.vis_ir);
-            });
-        }, 1000);
-    }
-});
-
-module.exports.getData = function () {
-	return new Promise(function (resolve, reject) {
+        });
 		resolve([
 			{
 				sensorID: 4,
