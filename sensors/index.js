@@ -9,7 +9,15 @@ module.exports.load = function () {
 				optional("./bme280.js"),
 				optional("./ds18b20.js")
 			];
-			resolve();
+			var calledPromises = [];
+			for (var i = 0; i < promises.length; i++) {
+				calledPromises[i] = promises[i].load();
+			}
+			Promise.all(calledPromises).then(function (values) {
+				resolve();
+			}).catch(function (reason) {
+				reject(reason);
+			});
 		});
 	});
 };
@@ -18,7 +26,7 @@ module.exports.run = function () {
 	return new Promise(function (resolve, reject) {
 		var calledPromises = [];
 		for (var i = 0; i < promises.length; i++) {
-			calledPromises[i] = promises[i]();
+			calledPromises[i] = promises[i].getData();
 		}
 		Promise.all(calledPromises).then(function (values) {
 			var sensors = [];
