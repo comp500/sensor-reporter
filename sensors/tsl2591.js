@@ -3,6 +3,14 @@ var tsl2591 = require('tsl2591');
 /* Use /dev/i2c-0 on older Raspis */
 /* Note the options are passed directly to the i2c module */
 var light = new tsl2591({device: '/dev/i2c-1'});
+
+module.exports = {};
+
+module.exports.load = function () {
+	return new Promise(function (resolve, reject) {
+		
+	});
+}
 light.init({AGAIN: 2, ATIME: 1}, function(err) {
     if (err) {
         console.log(err);
@@ -24,7 +32,7 @@ light.init({AGAIN: 2, ATIME: 1}, function(err) {
     }
 });
 
-module.exports = function () {
+module.exports.getData = function () {
 	return new Promise(function (resolve, reject) {
 		resolve([
 			{
