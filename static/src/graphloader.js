@@ -8,7 +8,6 @@ $(function () {
 		}
 	}, 1000);
 	$.getJSON("data.json", function (ajaxdata) {
-		var items = [];
 		var config = {
 			type: 'line',
 			data: {
@@ -60,7 +59,6 @@ $(function () {
 	});
 	
 	$.getJSON("data.json", function (ajaxdata) {
-		var items = [];
 		var config = {
 			type: 'line',
 			data: {
@@ -111,7 +109,6 @@ $(function () {
 		window.myLine = new Chart(ctx2, config);
 	});
 	$.getJSON("data.json", function (ajaxdata) {
-		var items = [];
 		var config = {
 			type: 'line',
 			data: {
