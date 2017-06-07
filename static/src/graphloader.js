@@ -1,4 +1,12 @@
 $(function () {
+	var currentSeconds = parseInt(document.getElementsByClassName("measurementTime")[0].innerText);
+	window.setInterval(function () {
+		currentSeconds++;
+		var timeElements = document.getElementsByClassName("measurementTime");
+		for (var i = 0; i < timeElements.length; i++) {
+			timeElements[i].innerText = currentSeconds;
+		}
+	}, 1000);
 	$.getJSON("data.json", function (ajaxdata) {
 		var items = [];
 		var config = {
@@ -50,9 +58,7 @@ $(function () {
 		var ctx2 = document.getElementById("ambient").getContext("2d");
 		window.myLine = new Chart(ctx2, config);
 	});
-	window.setInterval(function () {
-		document.getElementById("measurementTime").innerText = parseInt(document.getElementById("measurementTime").innerText) + 1;
-	}, 1000);
+	
 	$.getJSON("data.json", function (ajaxdata) {
 		var items = [];
 		var config = {
