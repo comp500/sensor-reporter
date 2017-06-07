@@ -5,6 +5,8 @@ const config = require('./config.js');
 const app = express();
 const BME280 = require('node-bme280');
 const barometer = new BME280({address: 0x77});
+const compression = require('compression'); // middle-out compression
+const minify = require('express-minify');
 // define variables
 var latestTemp;
 var latestPressure;
@@ -60,6 +62,9 @@ var consolidate = function (type) { // not done
 app.engine('handlebars', exphbs({defaultLayout: false}));
 app.set('view engine', 'handlebars');
 app.use(express.static('static')); // use static folder
+app.use(compression()); // use compression
+app.use(minify()); // use minification
+
 
 app.get('/', function (req, res) { // homepage
 	if (ready) {
