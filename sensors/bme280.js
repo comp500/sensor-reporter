@@ -23,9 +23,9 @@ module.exports.getData = function () {
 			if (err) {
 				reject(err);
 			}
-			latestTemp = temperature.toFixed(2);
-			latestPressure = (pressure / 100).toFixed(2);
-			latestHumidity = humidity.toFixed(2);
+			var latestTemp = temperature.toFixed(2);
+			var latestPressure = (pressure / 100).toFixed(2);
+			var latestHumidity = humidity.toFixed(2);
 			resolve([
 				{
 					sensorID: 1,
