@@ -53,8 +53,6 @@ $(function () {
 	window.setInterval(function () {
 		document.getElementById("measurementTime").innerText = parseInt(document.getElementById("measurementTime").innerText) + 1;
 	}, 1000);
-});
-$(function () {
 	$.getJSON("data.json", function (ajaxdata) {
 		var items = [];
 		var config = {
@@ -106,8 +104,6 @@ $(function () {
 		var ctx2 = document.getElementById("humidity").getContext("2d");
 		window.myLine = new Chart(ctx2, config);
 	});
-});
-$(function () {
 	$.getJSON("data.json", function (ajaxdata) {
 		var items = [];
 		var config = {
