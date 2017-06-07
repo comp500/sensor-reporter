@@ -8,7 +8,7 @@ $(function () {
 		}
 	}, 1000);
 	$.getJSON("data.json", function (ajaxdata) {
-		var config = {
+		new Chart(document.getElementById("ambient").getContext("2d"), {
 			type: 'line',
 			data: {
 				labels: ["-95", "-90", "-85", "-80", "-75", "-70", "-65", "-60", "-55", "-50", "-45", "-40", "-35", "-30", "-25", "-20", "-15", "-10", "-5", "0"],
@@ -52,14 +52,8 @@ $(function () {
  					}]
 				}
 			}
-		};
-
-		var ctx2 = document.getElementById("ambient").getContext("2d");
-		window.myLine = new Chart(ctx2, config);
-	});
-	
-	$.getJSON("data.json", function (ajaxdata) {
-		var config = {
+		});
+		new Chart(document.getElementById("humidity").getContext("2d"), {
 			type: 'line',
 			data: {
 				labels: ["-95", "-90", "-85", "-80", "-75", "-70", "--65", "-60", "-55", "-50", "-45", "-40", "-35", "-30", "-25", "-20", "-15", "-10", "-5", "0"],
@@ -103,13 +97,8 @@ $(function () {
  					}]
 				}
 			}
-		};
-
-		var ctx2 = document.getElementById("humidity").getContext("2d");
-		window.myLine = new Chart(ctx2, config);
-	});
-	$.getJSON("data.json", function (ajaxdata) {
-		var config = {
+		});
+		new Chart(document.getElementById("pressure").getContext("2d"), {
 			type: 'line',
 			data: {
 				labels: ["-95", "-90", "-85", "-80", "-75", "-70", "--65", "-60", "-55", "-50", "-45", "-40", "-35", "-30", "-25", "-20", "-15", "-10", "-5", "0"],
@@ -153,9 +142,6 @@ $(function () {
  					}]
 				}
 			}
-		};
-
-		var ctx2 = document.getElementById("pressure").getContext("2d");
-		window.myLine = new Chart(ctx2, config);
+		});
 	});
 });
