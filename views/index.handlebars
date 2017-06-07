@@ -21,6 +21,7 @@
 	<script src="src/chartJS/samples/utils.js"></script>
 	<style>
 
+
 	</style>
 </head>
 
@@ -60,7 +61,7 @@
 		<p class="lead">
 			Data recorded <span id="measurementTime">{{measurementTime}}</span> seconds ago
 		</p>
-	
+
 		<hr>
 		<!--<div class="alert alert-success" style="margin-top:-1.75em" role="alert">
 		<strong>Finally</strong> Graphing has become reliable; as a result the graphs are shown below
@@ -69,57 +70,57 @@
 	</div>
 	</div>
 	<div class="container">
-	<div class="row">
-		<div class="col-md-6">
-			<div class="card">
-				<div class="card-block">
-					<h4 class="card-title">Temperature</h4>
-					<h6 class="card-subtitle text-muted">Sensor 0</h6>
-				</div>
-				<div style="width:90%; margin-left:5%; margin-bottom: 5%;">
-					<canvas id="ambient"></canvas>
-				</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-block">
+						<h4 class="card-title">Temperature</h4>
+						<h6 class="card-subtitle text-muted">Sensor 0</h6>
+					</div>
+					<div style="width:90%; margin-left:5%; margin-bottom: 5%;">
+						<canvas id="ambient"></canvas>
+					</div>
 
-				<div class="card-footer text-muted">
-					Data recorded <span id="measurementTime">{{measurementTime}}</span> seconds ago
+					<div class="card-footer text-muted">
+						Data recorded <span id="measurementTime">{{measurementTime}}</span> seconds ago
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="card">
-				<div class="card-block">
-					<h4 class="card-title">Pressure</h4>
-					<h6 class="card-subtitle text-muted">Sensor 1</h6>
-				</div>
-				<div style="width:90%; margin-left:5%; margin-bottom: 5%;">
-					<canvas id="pressure"></canvas>
-				</div>
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-block">
+						<h4 class="card-title">Pressure</h4>
+						<h6 class="card-subtitle text-muted">Sensor 1</h6>
+					</div>
+					<div style="width:90%; margin-left:5%; margin-bottom: 5%;">
+						<canvas id="pressure"></canvas>
+					</div>
 
-				<div class="card-footer text-muted">
-					Data recorded <span id="measurementTime">{{measurementTime}}</span> seconds ago
-				</div>
-{{/if}}			</div>
-		</div>
-	</div>
-	
-	<div class="row">
-		<div class="col-md-6">
-			<div class="card">
-				<div class="card-block">
-					<h4 class="card-title">Humidity</h4>
-					<h6 class="card-subtitle text-muted">Sensor 2</h6>
-				</div>
-				<div style="width:90%; margin-left:5%; margin-bottom: 5%;">
-					<canvas id="humidity"></canvas>
-				</div>
-
-				<div class="card-footer text-muted">
-					Data recorded <span id="measurementTime">{{measurementTime}}</span> seconds ago
-				</div>
+					<div class="card-footer text-muted">
+						Data recorded <span id="measurementTime">{{measurementTime}}</span> seconds ago
+					</div>
+					{{/if}} </div>
 			</div>
-		</div> {{#if graphtest}}
-	
-		<!-- <div class="col-md-6">
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-block">
+						<h4 class="card-title">Humidity</h4>
+						<h6 class="card-subtitle text-muted">Sensor 2</h6>
+					</div>
+					<div style="width:90%; margin-left:5%; margin-bottom: 5%;">
+						<canvas id="humidity"></canvas>
+					</div>
+
+					<div class="card-footer text-muted">
+						Data recorded <span id="measurementTime">{{measurementTime}}</span> seconds ago
+					</div>
+				</div>
+			</div> {{#if graphtest}}
+
+			<!-- <div class="col-md-6">
 			<div class="card">
 				<div class="card-block">
 					<h4 class="card-title">Temperature</h4>
@@ -134,30 +135,30 @@
 				</div>
 			</div>
 		</div>-->
-	</div>
-		{{/if}}
-	{{#if dev}}
-	<div class="container">
-		<div class="base">
-			<h1>Data</h1>
-			<p class="lead">Loading...</p>
 		</div>
+		{{/if}} {{#if dev}}
 		<div class="container">
+			<div class="base">
+				<h1>Data</h1>
+				<p class="lead">Loading...</p>
+			</div>
+			<div class="container">
+			</div>
 		</div>
-	</div>
 	</div>
 	{{/if}}
-<footer class="footer">
-      <div class="container">
-        <p class="text-muted">Source code on <a href="https://github.com/comp500/sensor-reporter">GitHub</a></p>
-      </div>
-    </footer>
+	<footer class="footer">
+		<div class="container">
+			<p class="text-muted">Source code on <a href="https://github.com/comp500/sensor-reporter">GitHub</a></p>
+		</div>
+	</footer>
 	<!-- Bootstrap core JavaScript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
 	<script>
 		window.jQuery || document.write('<script src="src/jquery.js"><\/script>')
+
 	</script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
 	<script src="src/bootstrap.js"></script>
