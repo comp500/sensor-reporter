@@ -86,8 +86,10 @@ $(function() {
  					}],
  					yAxes: [{
  						display: true,
-						min: 10,
-						max: 95,
+						ticks: {
+							min: 10,
+							max: 95,
+						},
  						scaleLabel: {
  						display: true,
  							labelString: 'Humidity (%)'
