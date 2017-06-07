@@ -25,7 +25,7 @@ module.exports.getData = function () {
             if (err) {
                 reject(err);
             } else {
-				if (data.vis_ir = 0) {
+				if (data.vis_ir == 0) {
 					resolve(module.exports.getData());
 				} else {
 					console.log(data);
