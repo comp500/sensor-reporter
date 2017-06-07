@@ -1,6 +1,6 @@
 var fs = require("fs");
 var glob = require("glob");
-var fileName = "";
+var fileName = null;
 
 module.exports = {};
 
