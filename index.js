@@ -1,52 +1,45 @@
-// set requirements
+// load modules
 const express = require('express');
 const exphbs  = require('express-handlebars');
 const config = require('./config.js');
 const app = express();
-const BME280 = require('node-bme280');
-const barometer = new BME280({address: 0x77});
+const sensors = require('./sensors/index.js');
+
 // define variables
-var latestTemp;
-var latestPressure;
-var latestHumidity;
-var latestTime;
+var latestSensors;
 var ready = false;
 
 // open datastores
 var Datastore = require('nedb');
 var dateFormat = require('dateformat');
 var open = new Date();
-var db = new Datastore({ filename: 'latest.txt', autoload: true }); // rename to dbLatest
+var db = new Datastore({ filename: 'latest2.txt', autoload: true }); // TODO: rename to dbLatest
 //var dbDaily = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "day.txt", autoload: true });
-//var dbWeekly = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "week.txt", autoload: true }); // fix file name for each week not day
- 
-// initialise barometer
-barometer.begin(function (err) {
-    if (err) {
-        console.info('error initializing barometer', err);
-        return;
-    }
-    console.info('barometer running');
+//var dbWeekly = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "week.txt", autoload: true }); // TODO: fix file name for each week not day
+
+sensors.load().then(function () {
 	// read first measurement immediately
 	setImmediate(readData);
 	// read measurements on interval
-	setInterval(readData, config.ambientTemperature.interval);
+	setInterval(readData, config[0].interval);
+}).catch(function (err) {
+	console.error(err);
+	return;
 });
 
 var readData = function () {
-	// read data from sensor
-	barometer.readPressureAndTemparature(function(err, pressure, temperature, humidity) {
-		latestTime = new Date(); // get current time/date
-		latestTemp = temperature.toFixed(2); // store to 2dp TODO: make this use config file
-		latestPressure = (pressure / 100).toFixed(2);
-		latestHumidity = humidity.toFixed(2);
-		ready = true; // tell webpage that measurements are available
-		db.insert({ // insert data in database
-			time: latestTime,
-			ambientTemperature: latestTemp,
-			pressure: latestPressure,
-			humidity: latestHumidity
-		});
+	// read data from sensors
+	sensors.run().then(function (values) {
+		values.time = new Date();
+		//latestTemp = temperature.toFixed(2); // store to 2dp TODO: make this use config file
+		//latestPressure = (pressure / 100).toFixed(2);
+		//latestHumidity = humidity.toFixed(2);
+		latestSensors = values; // TODO: fix decimal places
+		db.insert(values);
+		ready = true;
+	}).catch(function (err) {
+		console.error(err);
+		return;
 	});
 };
 
