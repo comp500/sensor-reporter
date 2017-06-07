@@ -7,12 +7,14 @@ const BME280 = require('node-bme280');
 const barometer = new BME280({address: 0x77});
 const compression = require('compression'); // middle-out compression
 const minify = require('express-minify');
+const ServerTiming = require("servertiming");
 // define variables
 var latestTemp;
 var latestPressure;
 var latestHumidity;
 var latestTime;
 var ready = false;
+var timing = new ServerTiming();
 
 // open datastores
 var Datastore = require('nedb');
@@ -123,7 +125,9 @@ app.get('/output.csv', function (req, res) { // for export csv file
 });
 
 app.get('/data.json', function (req, res) {
+	timing.startTimer("Database Query");
 	db.find({}).sort({ time: -1 }).limit(100).exec(function (err, docs) { // query 100 newest entries, newest first
+		timing.stopTimer("Database Query");
 		var dataObject = { // output object
 			ambientTemperature: [],
 			pressure: [],
@@ -134,6 +138,7 @@ app.get('/data.json', function (req, res) {
 			pressure: 0,
 			humidity: 0
 		};
+		timing.startTimer("Generate JSON");
 		for (var i = 0; i < docs.length; i++) {
 			average.ambientTemperature += parseFloat(docs[i].ambientTemperature); // add data to mean object
 			average.pressure += parseFloat(docs[i].pressure);
@@ -152,7 +157,9 @@ app.get('/data.json', function (req, res) {
 				};
 			}
 		}
+		timing.stopTimer("Generate JSON");
 		console.dir(dataObject);
+		res.setHeader("Server-Timing", timing.generateHeader());
 		res.send(JSON.stringify(dataObject)); // send data
 	});
 });
