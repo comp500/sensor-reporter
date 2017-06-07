@@ -30,11 +30,8 @@ module.exports.run = function () {
 		}
 		Promise.all(calledPromises).then(function (values) {
 			var sensors = [];
-			console.dir(values);
 			for (var i = 0; i < values.length; i++) {
-				sensors.concat(values[i]);
-				console.dir(values[i]);
-				console.dir(sensors);
+				sensors = sensors.concat(values[i]);
 			}
 			resolve(sensors);
 		}).catch(function (reason) {
