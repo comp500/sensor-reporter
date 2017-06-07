@@ -26,5 +26,14 @@ module.exports = {
 		measurement: "Pressure",
 		location: "ICT office",
 		htmlDecimal: 0
+	},
+	4: { // light
+		graphDecimal: 0,
+		exportDecimal: 0,
+		interval: 60 * 1000, // 1 minute readings
+		unit: "lx",
+		measurement: "Light",
+		location: "ICT office",
+		htmlDecimal: 0
 	}
 };
