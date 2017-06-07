@@ -23,23 +23,21 @@ module.exports.getData = function () {
 	return new Promise(function (resolve, reject) {
 		light.readLuminosity(function(err, data) {
             if (err) {
-                console.log(err);
+                reject(err);
             }
             else {
                 console.log(data);
+				resolve([
+					{
+						sensorID: 5,
+						value: data.vis_ir,
+						unit: "lux",
+						measurement: "Light",
+						location: "ICT office",
+						htmlDecimal: 0
+					}
+				]);
             }
-            var raw = data.vis_ir;
-            console.log(data.vis_ir);
         });
-		resolve([
-			{
-				sensorID: 4,
-				value: latestTemp,
-				unit: "&#176;C",
-				measurement: "Temperature",
-				location: "Soil",
-				htmlDecimal: 1
-			}
-		]);
 	});
 }
