@@ -78,6 +78,8 @@ $(function() {
  				scales: {
  				xAxes: [{
  						display: true,
+						min: 10,
+						max: 95,
  						scaleLabel: {
  							display: true,
  							labelString: 'Time (Mins ago)',
@@ -120,7 +122,7 @@ $(function() {
  					mode: 'index',
  					intersect: false,
  				},
- 				hover: {
+ 				hover: {	
  				mode: 'nearest',
  					intersect: true
  				},
