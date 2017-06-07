@@ -27,6 +27,7 @@ module.exports = {
 		location: "ICT office",
 		htmlDecimal: 0
 	},
+	// TODO: add external temperature sensor (ID 3)
 	4: { // light
 		graphDecimal: 0,
 		exportDecimal: 0,
