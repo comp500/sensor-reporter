@@ -31,8 +31,12 @@ module.exports.getData = function () {
 					console.log(data);
 					resolve([
 						{
-							sensorID: 4,
-							value: data.vis_ir
+							sensorID: 5,
+							value: data.vis_ir,
+							unit: "lx",
+							measurement: "Light",
+							location: "ICT office",
+							htmlDecimal: 0
 						}
 					]);
 				}

@@ -1,15 +1,18 @@
-// load modules
+// set requirements
 const express = require('express');
 const exphbs  = require('express-handlebars');
 const config = require('./config.js');
 const app = express();
+const BME280 = require('node-bme280');
+const barometer = new BME280({address: 0x77});
 const compression = require('compression'); // middle-out compression
 const minify = require('express-minify');
 const ServerTiming = require("servertiming");
-const sensors = require('./sensors/index.js');
-
 // define variables
-var latestSensors;
+var latestTemp;
+var latestPressure;
+var latestHumidity;
+var latestTime;
 var ready = false;
 var timing = new ServerTiming();
 
@@ -17,62 +20,39 @@ var timing = new ServerTiming();
 var Datastore = require('nedb');
 var dateFormat = require('dateformat');
 var open = new Date();
-var db = new Datastore({ filename: 'latest2.txt', autoload: true }); // TODO: rename to dbLatest
+var db = new Datastore({ filename: 'latest.txt', autoload: true }); // rename to dbLatest
 //var dbDaily = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "day.txt", autoload: true });
-//var dbWeekly = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "week.txt", autoload: true }); // TODO: fix file name for each week not day
-
-sensors.load().then(function () {
+//var dbWeekly = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "week.txt", autoload: true }); // fix file name for each week not day
+ 
+// initialise barometer
+barometer.begin(function (err) {
+    if (err) {
+        console.info('error initializing barometer', err);
+        return;
+    }
+    console.info('barometer running');
 	// read first measurement immediately
 	setImmediate(readData);
 	// read measurements on interval
-	setInterval(readData, config[0].interval);
-}).catch(function (err) {
-	console.error(err);
-	return;
+	setInterval(readData, config.ambientTemperature.interval);
 });
 
 var readData = function () {
-	// read data from sensors
-	sensors.run().then(function (values) {
-		values.time = new Date();
-		//latestTemp = temperature.toFixed(2); // store to 2dp TODO: make this use config file
-		//latestPressure = (pressure / 100).toFixed(2);
-		//latestHumidity = humidity.toFixed(2);
-		latestSensors = values; // TODO: fix decimal places
-		db.insert(values); // TODO: insert and store as object to separate time?
-		ready = true;
-	}).catch(function (err) {
-		console.error(err);
-		return;
+	// read data from sensor
+	barometer.readPressureAndTemparature(function(err, pressure, temperature, humidity) {
+		latestTime = new Date(); // get current time/date
+		latestTemp = temperature.toFixed(2); // store to 2dp TODO: make this use config file
+		latestPressure = (pressure / 100).toFixed(2);
+		latestHumidity = humidity.toFixed(2);
+		ready = true; // tell webpage that measurements are available
+		db.insert({ // insert data in database
+			time: latestTime,
+			ambientTemperature: latestTemp,
+			pressure: latestPressure,
+			humidity: latestHumidity
+		});
 	});
 };
-
-var mergeConfig = function (data, decimal) {
-	// TODO: finish this function
-	// toFixed all values for decimal
-	// parsefloat if required?
-	/*[
-		{
-			value: parseFloat(latestTemp).toFixed(1),
-			unit: "&#176;C",
-			measurement: "Temperature",
-			location: "ICT office"
-		},
-		{
-			value: parseFloat(latestHumidity).toFixed(1),
-			unit: "%",
-			measurement: "Humidity",
-			location: "ICT office"
-		},
-		{
-			value: parseFloat(latestPressure).toFixed(0),
-			unit: "hPa",
-			small: true,
-			measurement: "Pressure",
-			location: "ICT office"
-		}
-	]*/
-}
 
 var consolidate = function (type) { // not done
 	if (type == "day") {
@@ -91,26 +71,44 @@ app.use(minify()); // use minification
 app.get('/', function (req, res) { // homepage
 	if (ready) {
 		var now = new Date(); // get current time
-		var secondsPast = (now.getTime() - latestSensors.time.getTime()) / 1000; // get seconds from recorded time
+		var secondsPast = (now.getTime() - latestTime.getTime()) / 1000; // get seconds from recorded time
 		res.render("index", { // display ready page with sensor data
 			ready: true,
+			graphtest: req.query.graphtest,
 			measurementTime: secondsPast.toFixed(0),
-			sensors: mergeConfig(latestSensors, "htmlDecimal")
+			sensors: [
+				{
+					value: parseFloat(latestTemp).toFixed(1),
+					unit: "&#176;C",
+					measurement: "Temperature",
+					location: "ICT office"
+				},
+				{
+					value: parseFloat(latestHumidity).toFixed(1),
+					unit: "%",
+					measurement: "Humidity",
+					location: "ICT office"
+				},
+				{
+					value: parseFloat(latestPressure).toFixed(0),
+					unit: "hPa",
+					small: true,
+					measurement: "Pressure",
+					location: "ICT office"
+				}
+			]
 		});
 	} else {
 		res.render("index", { // show not ready page
-			ready: false
+			ready: false,
+			graphtest: req.query.graphtest
 		});
 	};
 });
 
 app.get('/output.csv', function (req, res) { // for export csv file
 	db.find({}).sort({ time: 1 }).exec(function (err, docs) { // find all records and sort
-		var titles = "Time";
-		Object.keys(config).forEach(function (key) {
-			titles += "," + config[key].measurement;
-		});
-		res.write(titles + "\n"); // titles
+		res.write("Time,Temperature,Pressure,Humidity\n"); // titles
 		for (var i = 0; i < docs.length; i++) { // for every document
 			var time = docs[i].time; // time when recorded
 			var formattedDate = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate(); // format time/date for excel format
@@ -118,14 +116,9 @@ app.get('/output.csv', function (req, res) { // for export csv file
 			var formattedDateTime = formattedDate + " " + formattedTime; // github doesn't like long lines
 			res.write(formattedDateTime + ","); // write time/date
 			// write sensor data
-			var sensorData = mergeConfig(docs[i], "exportDecimal");
-			for (var i = 0; i < sensorData.length) {
-				if (i == (sensorData.length - 1)) {
-					res.write(sensorData + "\n");
-				} else {
-					res.write(sensorData + ",");
-				}
-			}
+			res.write(parseFloat(docs[i].ambientTemperature).toFixed(config.ambientTemperature.exportDecimal) + ",");
+			res.write(parseFloat(docs[i].pressure).toFixed(config.pressure.exportDecimal) + ",");
+			res.write(parseFloat(docs[i].humidity).toFixed(config.humidity.exportDecimal) + "\n");
 		}
 		res.end(); // end response
 	});
