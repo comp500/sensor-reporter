@@ -29,28 +29,16 @@ module.exports.getData = function () {
 			resolve([
 				{
 					sensorID: 1,
-					value: latestTemp,
-					unit: "&#176;C",
-					measurement: "Temperature",
-					location: "ICT office",
-					htmlDecimal: 1
+					value: latestTemp
 				},
 				{
 					sensorID: 2,
 					value: latestHumidity,
-					unit: "%",
-					measurement: "Humidity",
-					location: "ICT office",
-					htmlDecimal: 1
+					
 				},
 				{
 					sensorID: 3,
 					value: latestPressure,
-					unit: "hPa",
-					small: true,
-					measurement: "Pressure",
-					location: "ICT office",
-					htmlDecimal: 0
 				}
 			]);
 		});
