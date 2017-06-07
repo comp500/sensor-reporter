@@ -35,7 +35,7 @@ var readData = function () {
 		//latestPressure = (pressure / 100).toFixed(2);
 		//latestHumidity = humidity.toFixed(2);
 		latestSensors = values; // TODO: fix decimal places
-		db.insert(values);
+		db.insert(values); // TODO: insert and store as object to separate time?
 		ready = true;
 	}).catch(function (err) {
 		console.error(err);
@@ -45,6 +45,8 @@ var readData = function () {
 
 var mergeConfig = function (data, decimal) {
 	// TODO: finish this function
+	// toFixed all values for decimal
+	// parsefloat if required?
 	/*[
 		{
 			value: parseFloat(latestTemp).toFixed(1),
@@ -109,9 +111,14 @@ app.get('/output.csv', function (req, res) { // for export csv file
 			var formattedDateTime = formattedDate + " " + formattedTime; // github doesn't like long lines
 			res.write(formattedDateTime + ","); // write time/date
 			// write sensor data
-			res.write(parseFloat(docs[i].ambientTemperature).toFixed(config.ambientTemperature.exportDecimal) + ",");
-			res.write(parseFloat(docs[i].pressure).toFixed(config.pressure.exportDecimal) + ",");
-			res.write(parseFloat(docs[i].humidity).toFixed(config.humidity.exportDecimal) + "\n");
+			var sensorData = mergeConfig(docs[i], "exportDecimal");
+			for (var i = 0; i < sensorData.length) {
+				if (i == (sensorData.length - 1)) {
+					res.write(sensorData + "\n");
+				} else {
+					res.write(sensorData + ",");
+				}
+			}
 		}
 		res.end(); // end response
 	});
