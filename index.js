@@ -43,6 +43,31 @@ var readData = function () {
 	});
 };
 
+var mergeConfig = function (data, decimal) {
+	// TODO: finish this function
+	/*[
+		{
+			value: parseFloat(latestTemp).toFixed(1),
+			unit: "&#176;C",
+			measurement: "Temperature",
+			location: "ICT office"
+		},
+		{
+			value: parseFloat(latestHumidity).toFixed(1),
+			unit: "%",
+			measurement: "Humidity",
+			location: "ICT office"
+		},
+		{
+			value: parseFloat(latestPressure).toFixed(0),
+			unit: "hPa",
+			small: true,
+			measurement: "Pressure",
+			location: "ICT office"
+		}
+	]*/
+}
+
 var consolidate = function (type) { // not done
 	if (type == "day") {
 	} else if (type == "week") {
@@ -57,31 +82,11 @@ app.use(express.static('static')); // use static folder
 app.get('/', function (req, res) { // homepage
 	if (ready) {
 		var now = new Date(); // get current time
-		var secondsPast = (now.getTime() - latestTime.getTime()) / 1000; // get seconds from recorded time
+		var secondsPast = (now.getTime() - latestSensors.time.getTime()) / 1000; // get seconds from recorded time
 		res.render("index", { // display ready page with sensor data
 			ready: true,
 			measurementTime: secondsPast.toFixed(0),
-			sensors: [
-				{
-					value: parseFloat(latestTemp).toFixed(1),
-					unit: "&#176;C",
-					measurement: "Temperature",
-					location: "ICT office"
-				},
-				{
-					value: parseFloat(latestHumidity).toFixed(1),
-					unit: "%",
-					measurement: "Humidity",
-					location: "ICT office"
-				},
-				{
-					value: parseFloat(latestPressure).toFixed(0),
-					unit: "hPa",
-					small: true,
-					measurement: "Pressure",
-					location: "ICT office"
-				}
-			]
+			sensors: mergeConfig(latestSensors, "htmlDecimal")
 		});
 	} else {
 		res.render("index", { // show not ready page
@@ -92,6 +97,10 @@ app.get('/', function (req, res) { // homepage
 
 app.get('/output.csv', function (req, res) { // for export csv file
 	db.find({}).sort({ time: 1 }).exec(function (err, docs) { // find all records and sort
+		var titles = ["Time"];
+		Object.keys(config).forEach(function (key) {
+			titles.push(config[key].measurement);
+		});
 		res.write("Time,Temperature,Pressure,Humidity\n"); // titles
 		for (var i = 0; i < docs.length; i++) { // for every document
 			var time = docs[i].time; // time when recorded
