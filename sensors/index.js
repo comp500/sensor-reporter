@@ -33,6 +33,8 @@ module.exports.run = function () {
 			console.dir(values);
 			for (var i = 0; i < values.length; i++) {
 				sensors.concat(values[i]);
+				console.dir(values[i]);
+				console.dir(sensors);
 			}
 			resolve(sensors);
 		}).catch(function (reason) {
