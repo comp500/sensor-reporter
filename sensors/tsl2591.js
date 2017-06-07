@@ -25,8 +25,8 @@ module.exports.getData = function () {
             if (err) {
                 reject(err);
             } else {
-				if (data.vis_ir == 0) {
-					resolve(module.exports.getData());
+				if (data.vis_ir == 0) { // rerun if no data
+					resolve(module.exports.getData()); // maybe add check for infinite loop?
 				} else {
 					console.log(data);
 					resolve([
