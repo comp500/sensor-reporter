@@ -24,19 +24,22 @@ module.exports.getData = function () {
 		light.readLuminosity(function(err, data) {
             if (err) {
                 reject(err);
-            }
-            else {
-                console.log(data);
-				resolve([
-					{
-						sensorID: 5,
-						value: data.vis_ir,
-						unit: "lux",
-						measurement: "Light",
-						location: "ICT office",
-						htmlDecimal: 0
-					}
-				]);
+            } else {
+				if (data.vis_ir = 0) {
+					resolve(module.exports.getData());
+				} else {
+					console.log(data);
+					resolve([
+						{
+							sensorID: 5,
+							value: data.vis_ir,
+							unit: "lux",
+							measurement: "Light",
+							location: "ICT office",
+							htmlDecimal: 0
+						}
+					]);
+				}
             }
         });
 	});
