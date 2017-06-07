@@ -34,6 +34,10 @@ $(function() {
  					}],
  					yAxes: [{
  						display: true,
+						ticks: {
+							min: 0,
+							max: 35
+						},
  						scaleLabel: {
  						display: true,
  							labelString: 'Temperature'
@@ -139,6 +143,10 @@ $(function() {
  					}],
  					yAxes: [{
  						display: true,
+						ticks: {
+							min: 990,
+							max: 1040
+						},
  						scaleLabel: {
  						display: true,
  							labelString: 'Humidity (%)'
