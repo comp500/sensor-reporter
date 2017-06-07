@@ -97,11 +97,11 @@ app.get('/', function (req, res) { // homepage
 
 app.get('/output.csv', function (req, res) { // for export csv file
 	db.find({}).sort({ time: 1 }).exec(function (err, docs) { // find all records and sort
-		var titles = ["Time"];
+		var titles = "Time";
 		Object.keys(config).forEach(function (key) {
-			titles.push(config[key].measurement);
+			titles += "," + config[key].measurement;
 		});
-		res.write("Time,Temperature,Pressure,Humidity\n"); // titles
+		res.write(titles + "\n"); // titles
 		for (var i = 0; i < docs.length; i++) { // for every document
 			var time = docs[i].time; // time when recorded
 			var formattedDate = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate(); // format time/date for excel format
