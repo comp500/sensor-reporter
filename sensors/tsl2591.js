@@ -31,7 +31,7 @@ module.exports.getData = function () {
 					console.log(data);
 					resolve([
 						{
-							sensorID: 5,
+							sensorID: 4,
 							value: data.vis_ir
 						}
 					]);
