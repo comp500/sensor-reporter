@@ -18,7 +18,7 @@ module.exports.load = function () {
 }
 
 module.exports.getData = function () {
-	resolve(new Promise(function (resolve, reject) {
+	return new Promise(function (resolve, reject) {
 		barometer.readPressureAndTemparature(function(err, pressure, temperature, humidity) {
 			latestTemp = temperature.toFixed(2);
 			latestPressure = (pressure / 100).toFixed(2);
@@ -50,7 +50,6 @@ module.exports.getData = function () {
 					htmlDecimal: 0
 				}
 			]);
-			//resolve();
 		});
 	});
 };
