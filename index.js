@@ -47,6 +47,12 @@ var mergeConfig = function (data, decimal) {
 	// TODO: finish this function
 	// toFixed all values for decimal
 	// parsefloat if required?
+	var merged = [];
+	Object.keys(config).forEach(function (key) {
+		if (data[key] != null) {
+			
+		}
+	});
 	/*[
 		{
 			value: parseFloat(latestTemp).toFixed(1),
@@ -112,7 +118,7 @@ app.get('/output.csv', function (req, res) { // for export csv file
 			res.write(formattedDateTime + ","); // write time/date
 			// write sensor data
 			var sensorData = mergeConfig(docs[i], "exportDecimal");
-			for (var i = 0; i < sensorData.length) {
+			for (var i = 0; i < sensorData.length; i++) {
 				if (i == (sensorData.length - 1)) {
 					res.write(sensorData + "\n");
 				} else {
