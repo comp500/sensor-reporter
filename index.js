@@ -135,6 +135,17 @@ app.get('/output.csv', function (req, res) { // for export csv file
 app.get('/data.json', function (req, res) {
 	db.find({}).sort({ time: -1 }).limit(100).exec(function (err, docs) { // query 100 newest entries, newest first
 		var dataObject = { // output object
+			metadata: {},
+			values: {}
+		};
+		Object.keys(config).forEach(function (key) { // build metadata
+			metadata[key] = { // data for graphs
+				unit: config[key].unit,
+				measurement: config[key].measurement,
+				location: config[key].location,
+			};
+		});
+		/*var dataObject = { // output object
 			ambientTemperature: [],
 			pressure: [],
 			humidity: []
@@ -161,7 +172,7 @@ app.get('/data.json', function (req, res) {
 					humidity: 0
 				};
 			}
-		}
+		}*/
 		console.dir(dataObject);
 		res.send(JSON.stringify(dataObject)); // send data
 	});
