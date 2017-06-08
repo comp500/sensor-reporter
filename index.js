@@ -44,9 +44,6 @@ var readData = function () {
 };
 
 var mergeConfig = function (data, decimal) {
-	// TODO: finish this function
-	// toFixed all values for decimal
-	// parsefloat if required?
 	var merged = [];
 	Object.keys(config).forEach(function (key) {
 		if (data[key] != null) {
@@ -70,27 +67,6 @@ var mergeConfig = function (data, decimal) {
 		}
 	});
 	return merged;
-	/*[
-		{
-			value: parseFloat(latestTemp).toFixed(1),
-			unit: "&#176;C",
-			measurement: "Temperature",
-			location: "ICT office"
-		},
-		{
-			value: parseFloat(latestHumidity).toFixed(1),
-			unit: "%",
-			measurement: "Humidity",
-			location: "ICT office"
-		},
-		{
-			value: parseFloat(latestPressure).toFixed(0),
-			unit: "hPa",
-			small: true,
-			measurement: "Pressure",
-			location: "ICT office"
-		}
-	]*/
 }
 
 var consolidate = function (type) { // not done
