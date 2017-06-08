@@ -51,16 +51,16 @@ var mergeConfig = function (data, decimal) {
 			if (decimal == "exportDecimal") {
 				merged.push(rounded); // just push value
 			} else if (decimal == "htmlDecimal") {
-				var data = { // data for templating engine
+				var dataOutput = { // data for templating engine
 					value: rounded,
 					unit: config[key].unit,
 					measurement: config[key].measurement,
 					location: config[key].location
 				};
 				if (config[key].small == true) { // default is false
-					data.small = true;
+					dataOutput.small = true;
 				}
-				merged.push(data);
+				merged.push(dataOutput);
 			} else {
 				console.error("Invalid rounding value");
 			}
@@ -69,12 +69,12 @@ var mergeConfig = function (data, decimal) {
 		}
 	});
 	return merged;
-}
+};
 
 var consolidate = function (type) { // not done
 	if (type == "day") {
 	} else if (type == "week") {
-	};
+	}
 };
 
 // start handlebars
@@ -95,7 +95,7 @@ app.get('/', function (req, res) { // homepage
 		res.render("index", { // show not ready page
 			ready: false
 		});
-	};
+	}
 });
 
 app.get('/output.csv', function (req, res) { // for export csv file
