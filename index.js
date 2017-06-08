@@ -53,7 +53,16 @@ var mergeConfig = function (data, decimal) {
 			var rounded = parseFloat(data[key]).toFixed(config[key][decimal]);
 			if (decimal == "exportDecimal") {
 				merged.push(rounded);
+			} else if (decimal == "htmlDecimal") {
+				var data = {
+					value: rounded,
+					unit: config[key].unit,
+					measurement: config[key].measurement,
+					location: config[key].location
+				};
 			}
+		} else {
+			console.error("Configured sensor not found in data.");
 		}
 	});
 	return merged;
