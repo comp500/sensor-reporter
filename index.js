@@ -44,12 +44,7 @@ var readData = function () {
 };
 
 var mergeConfig = function (data, decimal) {
-	var merged;
-	if (decimal == "graphDecimal") {
-		merged = {}; // preserve ID for AJAX response
-	} else {
-		merged = []; // order is implied in export, not needed in live
-	}
+	var merged = []; // order is implied in export, not needed in live
 	Object.keys(config).forEach(function (key) { // to ignore a sensor, remove from config
 		if (data[key] != null) {
 			var rounded = parseFloat(data[key]).toFixed(config[key][decimal]); // round to config value
@@ -66,8 +61,6 @@ var mergeConfig = function (data, decimal) {
 					data.small = true;
 				}
 				merged.push(data);
-			} else if (decimal == "graphDecimal") {
-				merged[key] = rounded;
 			} else {
 				console.error("Invalid rounding value");
 			}
@@ -138,6 +131,7 @@ app.get('/data.json', function (req, res) {
 			metadata: {},
 			values: {}
 		};
+		var average = {}; // running mean object
 		Object.keys(config).forEach(function (key) { // build metadata
 			metadata[key] = { // data for graphs
 				unit: config[key].unit,
@@ -145,16 +139,13 @@ app.get('/data.json', function (req, res) {
 				location: config[key].location,
 			};
 		});
-		/*var dataObject = { // output object
-			ambientTemperature: [],
-			pressure: [],
-			humidity: []
-		};
-		var average = { // running mean object
-			ambientTemperature: 0,
-			pressure: 0,
-			humidity: 0
-		};
+		
+		for (var i = 0; i < docs.length; i++) {
+			Object.keys(docs[i]).forEach(function (key) { // build metadata
+				average[key] += 
+			});
+		}
+		/*
 		for (var i = 0; i < docs.length; i++) {
 			average.ambientTemperature += parseFloat(docs[i].ambientTemperature); // add data to mean object
 			average.pressure += parseFloat(docs[i].pressure);
