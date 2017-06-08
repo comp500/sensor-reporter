@@ -50,16 +50,20 @@ var mergeConfig = function (data, decimal) {
 	var merged = [];
 	Object.keys(config).forEach(function (key) {
 		if (data[key] != null) {
-			var rounded = parseFloat(data[key]).toFixed(config[key][decimal]);
+			var rounded = parseFloat(data[key]).toFixed(config[key][decimal]); // round to config value
 			if (decimal == "exportDecimal") {
-				merged.push(rounded);
+				merged.push(rounded); // just push value
 			} else if (decimal == "htmlDecimal") {
-				var data = {
+				var data = { // data for templating engine
 					value: rounded,
 					unit: config[key].unit,
 					measurement: config[key].measurement,
 					location: config[key].location
 				};
+				if (config[key].small == true) { // default is false
+					data.small = true;
+				}
+				merged.push(data);
 			}
 		} else {
 			console.error("Configured sensor not found in data.");
