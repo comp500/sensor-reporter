@@ -141,29 +141,17 @@ app.get('/data.json', function (req, res) {
 		});
 		
 		for (var i = 0; i < docs.length; i++) {
-			Object.keys(docs[i]).forEach(function (key) { // build metadata
-				average[key] += 
+			Object.keys(docs[i]).forEach(function (key) { // add to mean
+				average[key] += parseFloat(docs[i][key]);
 			});
-		}
-		/*
-		for (var i = 0; i < docs.length; i++) {
-			average.ambientTemperature += parseFloat(docs[i].ambientTemperature); // add data to mean object
-			average.pressure += parseFloat(docs[i].pressure);
-			average.humidity += parseFloat(docs[i].humidity);
 			if ((i % 5) == 4) { // every 5 minutes
-				var meanAmbientTemperature = average.ambientTemperature / 5; // calculate means
-				var meanPressure = average.pressure / 5;
-				var meanHumidity = average.humidity / 5;
-				dataObject.ambientTemperature.push(meanAmbientTemperature.toFixed(config.ambientTemperature.graphDecimal)); // push to output
-				dataObject.pressure.push(meanPressure.toFixed(config.pressure.graphDecimal));
-				dataObject.humidity.push(meanHumidity.toFixed(config.humidity.graphDecimal));
-				average = { // reset averages
-					ambientTemperature: 0,
-					pressure: 0,
-					humidity: 0
-				};
+				Object.keys(average).forEach(function (key) { // calculate means
+					var averageCalculated = average[key] / 5;
+					dataObject.values[key] = averageCalculated.toFixed(config[key][decimal]); // add to values
+				});
+				average = {};
 			}
-		}*/
+		}
 		console.dir(dataObject);
 		res.send(JSON.stringify(dataObject)); // send data
 	});
