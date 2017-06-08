@@ -35,7 +35,7 @@ var readData = function () {
 		//latestPressure = (pressure / 100).toFixed(2);
 		//latestHumidity = humidity.toFixed(2);
 		latestSensors = values; // TODO: fix decimal places
-		db.insert(values); // TODO: insert and store as object to separate time?
+		db.insert(values);
 		ready = true;
 	}).catch(function (err) {
 		console.error(err);
@@ -45,7 +45,7 @@ var readData = function () {
 
 var mergeConfig = function (data, decimal) {
 	var merged = [];
-	Object.keys(config).forEach(function (key) {
+	Object.keys(config).forEach(function (key) { // to ignore a sensor, remove from config
 		if (data[key] != null) {
 			var rounded = parseFloat(data[key]).toFixed(config[key][decimal]); // round to config value
 			if (decimal == "exportDecimal") {
