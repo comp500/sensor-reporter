@@ -5,7 +5,7 @@ module.exports = {
 		interval: 60 * 1000, // 1 minute readings for Temperature
 		unit: "&#176;C",
 		measurement: "Temperature",
-		location: "ICT office",
+		location: "Geography office",
 		htmlDecimal: 1
 	},
 	1: { // humidity
@@ -14,7 +14,7 @@ module.exports = {
 		interval: 60 * 1000, // 1 minute readings for Humidity
 		unit: "%",
 		measurement: "Humidity",
-		location: "ICT office",
+		location: "Geography office",
 		htmlDecimal: 1
 	},
 	2: { // pressure
@@ -24,7 +24,7 @@ module.exports = {
 		unit: "hPa",
 		small: true,
 		measurement: "Pressure",
-		location: "ICT office",
+		location: "Geography office",
 		htmlDecimal: 0
 	},
 	// TODO: add external temperature sensor (ID 3)
@@ -34,7 +34,7 @@ module.exports = {
 		interval: 60 * 1000, // 1 minute readings
 		unit: "lx",
 		measurement: "Light",
-		location: "ICT office",
+		location: "Geography office",
 		htmlDecimal: 0
 	}
 };
