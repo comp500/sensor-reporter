@@ -47,12 +47,12 @@ var mergeConfig = function (data, decimal) {
 	// TODO: finish this function
 	// toFixed all values for decimal
 	// parsefloat if required?
-	var merged = [];
+	var merged = {};
 	Object.keys(config).forEach(function (key) {
 		if (data[key] != null) {
 			var rounded = parseFloat(data[key]).toFixed(config[key][decimal]);
 			if (decimal == "exportDecimal") {
-				merged.push(rounded);
+				merged[key] = rounded;
 			}
 		}
 	});
