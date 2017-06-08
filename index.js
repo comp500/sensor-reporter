@@ -56,6 +56,7 @@ var mergeConfig = function (data, decimal) {
 			}
 		}
 	});
+	return merged;
 	/*[
 		{
 			value: parseFloat(latestTemp).toFixed(1),
