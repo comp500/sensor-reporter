@@ -33,12 +33,11 @@ module.exports.getData = function () {
 				},
 				{
 					sensorID: 1,
-					value: latestHumidity,
-					
+					value: latestHumidity
 				},
 				{
 					sensorID: 2,
-					value: latestPressure,
+					value: latestPressure
 				}
 			]);
 		});
