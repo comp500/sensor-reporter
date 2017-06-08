@@ -44,7 +44,12 @@ var readData = function () {
 };
 
 var mergeConfig = function (data, decimal) {
-	var merged = [];
+	var merged;
+	if (decimal == "graphDecimal") {
+		merged = {}; // preserve ID for AJAX response
+	} else {
+		merged = []; // order is implied in export, not needed in live
+	}
 	Object.keys(config).forEach(function (key) { // to ignore a sensor, remove from config
 		if (data[key] != null) {
 			var rounded = parseFloat(data[key]).toFixed(config[key][decimal]); // round to config value
@@ -61,6 +66,10 @@ var mergeConfig = function (data, decimal) {
 					data.small = true;
 				}
 				merged.push(data);
+			} else if (decimal == "graphDecimal") {
+				merged[key] = rounded;
+			} else {
+				console.error("Invalid rounding value");
 			}
 		} else {
 			console.error("Configured sensor not found in data.");
