@@ -26,20 +26,11 @@ module.exports.getData = function () {
 			var latestTemp = temperature.toFixed(2);
 			var latestPressure = (pressure / 100).toFixed(2);
 			var latestHumidity = humidity.toFixed(2);
-			resolve([
-				{
-					sensorID: 0,
-					value: latestTemp
-				},
-				{
-					sensorID: 1,
-					value: latestHumidity
-				},
-				{
-					sensorID: 2,
-					value: latestPressure
-				}
-			]);
+			resolve({
+				0: latestTemp,
+				1: latestHumidity,
+				2: latestPressure
+			});
 		});
 	});
 };
