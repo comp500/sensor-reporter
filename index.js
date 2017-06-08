@@ -142,7 +142,13 @@ app.get('/data.json', function (req, res) {
 		
 		for (var i = 0; i < docs.length; i++) {
 			Object.keys(docs[i]).forEach(function (key) { // add to mean
-				average[key] += parseFloat(docs[i][key]);
+				if (key == "time") {
+					// ignore
+				} else if (config[key] == null) {
+					console.error("Data value not found in configuration");
+				} else {
+					average[key] += parseFloat(docs[i][key]);
+				}
 			});
 			if ((i % 5) == 4) { // every 5 minutes
 				Object.keys(average).forEach(function (key) { // calculate means
