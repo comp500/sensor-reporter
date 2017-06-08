@@ -81,20 +81,20 @@ app.get('/', function (req, res) { // homepage
 					value: parseFloat(latestTemp).toFixed(1),
 					unit: "&#176;C",
 					measurement: "Temperature",
-					location: "ICT office"
+					location: "Geography office"
 				},
 				{
 					value: parseFloat(latestHumidity).toFixed(1),
 					unit: "%",
 					measurement: "Humidity",
-					location: "ICT office"
+					location: "Geography office"
 				},
 				{
 					value: parseFloat(latestPressure).toFixed(0),
 					unit: "hPa",
 					small: true,
 					measurement: "Pressure",
-					location: "ICT office"
+					location: "Geography office"
 				}
 			]
 		});
