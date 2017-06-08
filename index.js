@@ -50,7 +50,10 @@ var mergeConfig = function (data, decimal) {
 	var merged = [];
 	Object.keys(config).forEach(function (key) {
 		if (data[key] != null) {
-			
+			var rounded = parseFloat(data[key]).toFixed(config[key][decimal]);
+			if (decimal == "exportDecimal") {
+				merged.push(rounded);
+			}
 		}
 	});
 	/*[
