@@ -8,7 +8,7 @@ window.chartColors = { // replace with colours in code?
 	grey: 'rgb(231,233,237)'
 };
 
-$(function () {
+window.addEventListener("load", function(event) {
 	var currentSeconds = parseInt(document.getElementsByClassName("measurementTime")[0].innerText);
 	window.setInterval(function () {
 		currentSeconds++;
@@ -17,7 +17,12 @@ $(function () {
 			timeElements[i].innerText = currentSeconds;
 		}
 	}, 1000);
-	$.getJSON("data.json", function (ajaxdata) {
+	
+	var oReq = new XMLHttpRequest();
+
+	oReq.addEventListener("progress", updateProgress);
+	oReq.addEventListener("error", transfer);
+	oReq.addEventListener("load", function () {
 		new Chart(document.getElementById("ambient").getContext("2d"), {
 			type: 'line',
 			data: {
@@ -154,4 +159,6 @@ $(function () {
 			}
 		});
 	});
-});
+
+	oReq.open("GET", "/data.json");
+}, false);
