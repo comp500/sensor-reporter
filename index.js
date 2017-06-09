@@ -5,13 +5,11 @@ const config = require('./config.js');
 const app = express();
 const compression = require('compression'); // middle-out compression
 const minify = require('express-minify');
-const ServerTiming = require("servertiming");
 const sensors = require('./sensors/index.js');
 
 // define variables
 var latestSensors;
 var ready = false;
-var timing = new ServerTiming();
 
 // open datastores
 var Datastore = require('nedb');
