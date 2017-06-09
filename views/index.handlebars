@@ -33,14 +33,19 @@
 			</li>
 		</ul>
 	</nav>
+	
 	<div class="alert alert-warning" style="margin-top:-1.75em" role="alert">
 		<strong>Warning!</strong> This is not production software
 	</div>
+	
 	{{#unless ready}}
 	<div class="alert alert-warning" style="margin-top:-1.75em" role="alert">
-		<strong>Warning!</strong> There is no data available yet.</div>{{/unless}}
+		<strong>Warning!</strong> There is no data available yet.
+	</div>
+	{{/unless}}
+	
+	{{#if ready}}
 	<div class="container">
-		{{#if ready}}
 		<div class="row">
 			{{#each sensors}}
 			<div class="col-md-3">
@@ -53,17 +58,14 @@
 			</div>
 			{{/each}}
 		</div>
+		
 		<p class="lead">
 			Data recorded <span class="measurementTime">{{measurementTime}}</span> seconds ago
 		</p>
 
 		<hr>
-		<!--<div class="alert alert-success" style="margin-top:-1.75em" role="alert">
-		<strong>Finally</strong> Graphing has become reliable; as a result the graphs are shown below
-	</div> -->
 	</div>
-	</div>
-	</div>
+	
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6">
@@ -84,7 +86,7 @@
 			<div class="col-md-6">
 				<div class="card">
 					<div class="card-block">
-<h4 class="card-title">Pressure</h4>
+						<h4 class="card-title">Pressure</h4>
 						<h6 class="card-subtitle text-muted">Sensor 1</h6>
 					</div>
 					<div style="width:90%; margin-left:5%; margin-bottom: 5%;">
@@ -113,21 +115,11 @@
 						Data recorded <span class="measurementTime">{{measurementTime}}</span> seconds ago
 					</div>
 				</div>
-      </div>
-		</div>
-    {{#if dev}}
-		<div class="container">
-			<div class="base">
-				<h1>Data</h1>
-				<p class="lead">Loading...</p>
-			</div>
-			<div class="container">
 			</div>
 		</div>
 	</div>
 	{{/if}}
-	</div>
-</div>
+	
 	<footer class="footer">
 		<div class="container">
 			<p class="text-muted">Source code on <a href="https://github.com/comp500/sensor-reporter">GitHub</a></p>
@@ -141,7 +133,6 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
 	<script>
 		window.jQuery || document.write('<script src="src/jquery.js"><\/script>')
-
 	</script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
 	<script src="src/bootstrap.js"></script>
@@ -149,7 +140,6 @@
 	<script src="src/ie10-viewport-bug-workaround.js"></script>
 	-->
 	<script src="src/graphloader.js"></script>
-	</div>
 </body>
 
 </html>
