@@ -57,7 +57,8 @@ var mergeConfig = function (data, decimal) {
 					value: rounded,
 					unit: config[key].unit,
 					measurement: config[key].measurement,
-					location: config[key].location
+					location: config[key].location,
+					sensorID: key
 				};
 				if (config[key].small == true) { // default is false
 					dataOutput.small = true;
