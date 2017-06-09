@@ -105,7 +105,7 @@ app.get('/output.csv', function (req, res) { // for export csv file
 			titles += "," + config[key].measurement;
 		});
 		res.write(titles + "\n"); // titles
-		for (var i = 0; i < docs.length; i++) { // for every document
+		for (let i = 0; i < docs.length; i++) { // for every document
 			var time = docs[i].time; // time when recorded
 			var formattedDate = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate(); // format time/date for excel format
 			var formattedTime = time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
@@ -113,7 +113,7 @@ app.get('/output.csv', function (req, res) { // for export csv file
 			res.write(formattedDateTime + ","); // write time/date
 			// write sensor data
 			var sensorData = mergeConfig(docs[i], "exportDecimal");
-			for (var i = 0; i < sensorData.length; i++) {
+			for (let i = 0; i < sensorData.length; i++) {
 				if (i == (sensorData.length - 1)) {
 					res.write(sensorData + "\n");
 				} else {
