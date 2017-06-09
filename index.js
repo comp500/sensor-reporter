@@ -3,11 +3,15 @@ const express = require('express');
 const exphbs  = require('express-handlebars');
 const config = require('./config.js');
 const app = express();
+const compression = require('compression'); // middle-out compression
+const minify = require('express-minify');
+const ServerTiming = require("servertiming");
 const sensors = require('./sensors/index.js');
 
 // define variables
 var latestSensors;
 var ready = false;
+var timing = new ServerTiming();
 
 // open datastores
 var Datastore = require('nedb');
@@ -81,6 +85,9 @@ var consolidate = function (type) { // not done
 app.engine('handlebars', exphbs({defaultLayout: false}));
 app.set('view engine', 'handlebars');
 app.use(express.static('static')); // use static folder
+app.use(compression()); // use compression
+app.use(minify()); // use minification
+
 
 app.get('/', function (req, res) { // homepage
 	if (ready) {
@@ -126,7 +133,9 @@ app.get('/output.csv', function (req, res) { // for export csv file
 });
 
 app.get('/data.json', function (req, res) {
+	timing.startTimer("Database Query");
 	db.find({}).sort({ time: -1 }).limit(100).exec(function (err, docs) { // query 100 newest entries, newest first
+		timing.stopTimer("Database Query");
 		var dataObject = { // output object
 			metadata: {},
 			values: {}
@@ -141,7 +150,6 @@ app.get('/data.json', function (req, res) {
 			dataObject.values[key] = []; // initialise array
 			average[key] = 0; // set average to 0
 		});
-		
 		for (var i = 0; i < docs.length; i++) {
 			Object.keys(docs[i]).forEach(function (key) { // add to mean
 				if (isNaN(parseInt(key, 10))) {
