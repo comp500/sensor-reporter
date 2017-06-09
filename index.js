@@ -114,12 +114,11 @@ app.get('/output.csv', function (req, res) { // for export csv file
 			// write sensor data
 			var sensorData = mergeConfig(docs[i], "exportDecimal");
 			console.log(sensorData.length);
-			for (let j = 0; j < sensorData.length; j++) {
-				if (j == (sensorData.length - 1)) {
-					res.write(sensorData + "\n");
-					console.log(j);
+			for (let i = 0; i < sensorData.length; i++) {
+				if (i == (sensorData.length - 1)) {
+					res.write(sensorData[i] + "\n");
 				} else {
-					res.write(sensorData + ",");
+					res.write(sensorData[i] + ",");
 				}
 			}
 		}
