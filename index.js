@@ -113,7 +113,6 @@ app.get('/output.csv', function (req, res) { // for export csv file
 			res.write(formattedDateTime + ","); // write time/date
 			// write sensor data
 			var sensorData = mergeConfig(docs[i], "exportDecimal");
-			console.log(sensorData.length);
 			for (let i = 0; i < sensorData.length; i++) {
 				if (i == (sensorData.length - 1)) {
 					res.write(sensorData[i] + "\n");
@@ -161,7 +160,6 @@ app.get('/data.json', function (req, res) {
 				});
 			}
 		}
-		console.dir(dataObject);
 		res.send(JSON.stringify(dataObject)); // send data
 	});
 });
