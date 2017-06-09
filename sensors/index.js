@@ -1,4 +1,3 @@
-var optional = require("optional");
 var promises;
 
 module.exports = {};
@@ -6,9 +5,9 @@ module.exports.load = function () { // load all modules
 	return new Promise(function (resolve, reject) {
 		process.nextTick(function () { // wait for some reason
 			promises = [ // list of all modules to be loaded
-				optional("./bme280.js"),
-//				optional("./ds18b20.js"),
-				optional("./tsl2591.js")
+				require("./bme280.js"),
+//				require("./ds18b20.js"),
+				require("./tsl2591.js")
 			];
 			var calledPromises = []; // array of promise callbacks
 			for (var i = 0; i < promises.length; i++) { // loop through all modules
@@ -27,10 +26,8 @@ module.exports.run = function () { // run all modules
 			calledPromises[i] = promises[i].getData(); // run all modules
 		}
 		Promise.all(calledPromises).then(function (values) {
-			var sensors = []; // array for sensor values
-			for (var i = 0; i < values.length; i++) {
-				sensors = sensors.concat(values[i]); // add callback values to array
-			}
+			values.unshift({}); // add empty object as first argument
+			var sensors = Object.assign.apply(this, values); // fill array for sensor values
 			resolve(sensors); // resolve array
 		}).catch(function (reason) {
 			reject(reason); // reject if error

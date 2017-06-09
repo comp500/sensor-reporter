@@ -29,12 +29,9 @@ module.exports.getData = function () {
 					resolve(module.exports.getData()); // maybe add check for infinite loop?
 				} else {
 					console.log(data);
-					resolve([
-						{
-							sensorID: 4,
-							value: data.vis_ir
-						}
-					]);
+					resolve({
+						4: data.vis_ir
+					});
 				}
             }
         });

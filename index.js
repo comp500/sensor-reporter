@@ -39,7 +39,7 @@ var readData = function () {
 		//latestPressure = (pressure / 100).toFixed(2);
 		//latestHumidity = humidity.toFixed(2);
 		latestSensors = values; // TODO: fix decimal places
-		db.insert(values); // TODO: insert and store as object to separate time?
+		db.insert(values);
 		ready = true;
 	}).catch(function (err) {
 		console.error(err);
@@ -48,36 +48,37 @@ var readData = function () {
 };
 
 var mergeConfig = function (data, decimal) {
-	// TODO: finish this function
-	// toFixed all values for decimal
-	// parsefloat if required?
-	/*[
-		{
-			value: parseFloat(latestTemp).toFixed(1),
-			unit: "&#176;C",
-			measurement: "Temperature",
-			location: "ICT office"
-		},
-		{
-			value: parseFloat(latestHumidity).toFixed(1),
-			unit: "%",
-			measurement: "Humidity",
-			location: "ICT office"
-		},
-		{
-			value: parseFloat(latestPressure).toFixed(0),
-			unit: "hPa",
-			small: true,
-			measurement: "Pressure",
-			location: "ICT office"
+	var merged = []; // order is implied in export, not needed in live
+	Object.keys(config).forEach(function (key) { // to ignore a sensor, remove from config
+		if (data[key] != null) {
+			var rounded = parseFloat(data[key]).toFixed(config[key][decimal]); // round to config value
+			if (decimal == "exportDecimal") {
+				merged.push(rounded); // just push value
+			} else if (decimal == "htmlDecimal") {
+				var dataOutput = { // data for templating engine
+					value: rounded,
+					unit: config[key].unit,
+					measurement: config[key].measurement,
+					location: config[key].location
+				};
+				if (config[key].small == true) { // default is false
+					dataOutput.small = true;
+				}
+				merged.push(dataOutput);
+			} else {
+				console.error("Invalid rounding value");
+			}
+		} else {
+			console.error("Configured sensor not found in data.");
 		}
-	]*/
-}
+	});
+	return merged;
+};
 
 var consolidate = function (type) { // not done
 	if (type == "day") {
 	} else if (type == "week") {
-	};
+	}
 };
 
 // start handlebars
@@ -101,7 +102,7 @@ app.get('/', function (req, res) { // homepage
 		res.render("index", { // show not ready page
 			ready: false
 		});
-	};
+	}
 });
 
 app.get('/output.csv', function (req, res) { // for export csv file
@@ -111,7 +112,7 @@ app.get('/output.csv', function (req, res) { // for export csv file
 			titles += "," + config[key].measurement;
 		});
 		res.write(titles + "\n"); // titles
-		for (var i = 0; i < docs.length; i++) { // for every document
+		for (let i = 0; i < docs.length; i++) { // for every document
 			var time = docs[i].time; // time when recorded
 			var formattedDate = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate(); // format time/date for excel format
 			var formattedTime = time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
@@ -119,11 +120,11 @@ app.get('/output.csv', function (req, res) { // for export csv file
 			res.write(formattedDateTime + ","); // write time/date
 			// write sensor data
 			var sensorData = mergeConfig(docs[i], "exportDecimal");
-			for (var i = 0; i < sensorData.length) {
+			for (let i = 0; i < sensorData.length; i++) {
 				if (i == (sensorData.length - 1)) {
-					res.write(sensorData + "\n");
+					res.write(sensorData[i] + "\n");
 				} else {
-					res.write(sensorData + ",");
+					res.write(sensorData[i] + ",");
 				}
 			}
 		}
@@ -136,37 +137,37 @@ app.get('/data.json', function (req, res) {
 	db.find({}).sort({ time: -1 }).limit(100).exec(function (err, docs) { // query 100 newest entries, newest first
 		timing.stopTimer("Database Query");
 		var dataObject = { // output object
-			ambientTemperature: [],
-			pressure: [],
-			humidity: []
+			metadata: {},
+			values: {}
 		};
-		var average = { // running mean object
-			ambientTemperature: 0,
-			pressure: 0,
-			humidity: 0
-		};
-		timing.startTimer("Generate JSON");
+		var average = {}; // running mean object
+		Object.keys(config).forEach(function (key) { // build metadata
+			dataObject.metadata[key] = { // data for graphs
+				unit: config[key].unit,
+				measurement: config[key].measurement,
+				location: config[key].location,
+			};
+			dataObject.values[key] = []; // initialise array
+			average[key] = 0; // set average to 0
+		});
 		for (var i = 0; i < docs.length; i++) {
-			average.ambientTemperature += parseFloat(docs[i].ambientTemperature); // add data to mean object
-			average.pressure += parseFloat(docs[i].pressure);
-			average.humidity += parseFloat(docs[i].humidity);
+			Object.keys(docs[i]).forEach(function (key) { // add to mean
+				if (isNaN(parseInt(key, 10))) {
+					// ignore
+				} else if (config[key] == null) {
+					console.error("Data value "+ key +" not found in configuration");
+				} else {
+					average[key] += parseFloat(docs[i][key]);
+				}
+			});
 			if ((i % 5) == 4) { // every 5 minutes
-				var meanAmbientTemperature = average.ambientTemperature / 5; // calculate means
-				var meanPressure = average.pressure / 5;
-				var meanHumidity = average.humidity / 5;
-				dataObject.ambientTemperature.push(meanAmbientTemperature.toFixed(config.ambientTemperature.graphDecimal)); // push to output
-				dataObject.pressure.push(meanPressure.toFixed(config.pressure.graphDecimal));
-				dataObject.humidity.push(meanHumidity.toFixed(config.humidity.graphDecimal));
-				average = { // reset averages
-					ambientTemperature: 0,
-					pressure: 0,
-					humidity: 0
-				};
+				Object.keys(average).forEach(function (key) { // calculate means
+					var averageCalculated = average[key] / 5;
+					dataObject.values[key].push(averageCalculated.toFixed(config[key].graphDecimal)); // add to values
+					average[key] = 0; // reset average
+				});
 			}
 		}
-		timing.stopTimer("Generate JSON");
-		console.dir(dataObject);
-		res.setHeader("Server-Timing", timing.generateHeader());
 		res.send(JSON.stringify(dataObject)); // send data
 	});
 });
