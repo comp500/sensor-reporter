@@ -23,7 +23,7 @@ sensors.load().then(function () {
 	// read first measurement immediately
 	setImmediate(readData);
 	// read measurements on interval
-	//setInterval(readData, config[0].interval);
+	setInterval(readData, config[0].interval);
 }).catch(function (err) {
 	console.error(err);
 	return;
