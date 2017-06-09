@@ -21,6 +21,7 @@ window.addEventListener("load", function(event) {
 	var createGraphs = function (ajaxdata) {
 		for (var i = 0; i < ajaxdata.metadata.length; i++) {
 			var meta = ajaxdata.metadata[i];
+			meta.unit = meta.unit.replace(/&#176;/g, String.fromCharCode(176)); // fix degree symbol
 			new Chart(document.getElementById("graph-" + meta.sensorID).getContext("2d"), {
 				type: 'line',
 				data: {
