@@ -26,7 +26,7 @@ window.addEventListener("load", function(event) {
 				data: {
 					labels: ["-95", "-90", "-85", "-80", "-75", "-70", "-65", "-60", "-55", "-50", "-45", "-40", "-35", "-30", "-25", "-20", "-15", "-10", "-5", "0"],
 					datasets: [{
-						label: meta.measurement + "(" + meta.unit + ")",
+						label: meta.measurement + " (" + meta.unit + ")",
 						backgroundColor: window.chartColors.red,
 						borderColor: window.chartColors.red,
 						data: ajaxdata.values[meta.sensorID],
