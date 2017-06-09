@@ -29,22 +29,23 @@
 				<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="output.csv">Exports <span class="sr-only">(current)</span></a>
+				<a class="nav-link" href="output.csv">Exports</a>
 			</li>
 		</ul>
 	</nav>
-	
-	<div class="alert alert-warning" style="margin-top:-1.75em" role="alert">
-		<strong>Warning!</strong> This is not production software
-	</div>
 	
 	{{#unless ready}}
 	<div class="alert alert-warning" style="margin-top:-1.75em" role="alert">
 		<strong>Warning!</strong> There is no data available yet.
 	</div>
+	<div class="container">
+		<a href="/"><h2>Click to refresh</h2></a>
+	</div>
 	{{/unless}}
-	
 	{{#if ready}}
+	<div class="alert alert-warning" style="margin-top:-1.75em" role="alert">
+		<strong>Warning!</strong> This is not production software
+	</div>
 	<div class="container">
 		<div class="row">
 			{{#each sensors}}
