@@ -139,6 +139,7 @@ app.get('/data.json', function (req, res) {
 				location: config[key].location,
 			};
 			dataObject.values[key] = []; // initialise array
+			average[key] = 0; // set average to 0
 		});
 		
 		for (var i = 0; i < docs.length; i++) {
@@ -154,7 +155,6 @@ app.get('/data.json', function (req, res) {
 			if ((i % 5) == 4) { // every 5 minutes
 				Object.keys(average).forEach(function (key) { // calculate means
 					var averageCalculated = average[key] / 5;
-					console.log(averageCalculated);
 					dataObject.values[key].push(averageCalculated.toFixed(config[key].graphDecimal)); // add to values
 					average[key] = 0; // reset average
 				});
