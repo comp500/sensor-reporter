@@ -33,6 +33,7 @@ module.exports = {
 		exportDecimal: 0,
 		interval: 60 * 1000, // 1 minute readings
 		unit: "lx",
+		small: true,
 		measurement: "Light",
 		location: "Geography office",
 		htmlDecimal: 0
