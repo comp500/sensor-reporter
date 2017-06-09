@@ -143,9 +143,8 @@ app.get('/data.json', function (req, res) {
 		for (var i = 0; i < docs.length; i++) {
 			Object.keys(docs[i]).forEach(function (key) { // add to mean
 				console.log(key);
-				console.log(parseInt(key, 10));
 				if (parseInt(key, 10) == NaN) {
-					// ignore
+					console.log("ignored");
 				} else if (config[key] == null) {
 					console.error("Data value "+ key +" not found in configuration");
 				} else {
