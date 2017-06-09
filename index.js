@@ -141,7 +141,6 @@ app.get('/data.json', function (req, res) {
 			dataObject.metadata.push({ // data for graphs
 				unit: config[key].unit,
 				measurement: config[key].measurement,
-				location: config[key].location,
 				min: config[key].graphMin,
 				max: config[key].graphMax,
 				sensorID: key
