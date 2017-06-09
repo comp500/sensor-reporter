@@ -19,6 +19,9 @@ window.addEventListener("load", function(event) {
 	}, 1000);
 	
 	var createGraphs = function (ajaxdata) {
+		for (var i = 0; i < ajaxdata.metadata.length; i++) {
+			
+		}
 		new Chart(document.getElementById("ambient").getContext("2d"), {
 			type: 'line',
 			data: {

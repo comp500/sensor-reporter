@@ -133,18 +133,19 @@ app.get('/output.csv', function (req, res) { // for export csv file
 app.get('/data.json', function (req, res) {
 	db.find({}).sort({ time: -1 }).limit(100).exec(function (err, docs) { // query 100 newest entries, newest first
 		var dataObject = { // output object
-			metadata: {},
+			metadata: [],
 			values: {}
 		};
 		var average = {}; // running mean object
 		Object.keys(config).forEach(function (key) { // build metadata
-			dataObject.metadata[key] = { // data for graphs
+			dataObject.metadata.push({ // data for graphs
 				unit: config[key].unit,
 				measurement: config[key].measurement,
 				location: config[key].location,
 				min: config[key].graphMin,
-				max: config[key].graphMax
-			};
+				max: config[key].graphMax,
+				sensorID: key
+			});
 			dataObject.values[key] = []; // initialise array
 			average[key] = 0; // set average to 0
 		});
