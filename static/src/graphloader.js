@@ -18,11 +18,7 @@ window.addEventListener("load", function(event) {
 		}
 	}, 1000);
 	
-	var oReq = new XMLHttpRequest();
-
-	oReq.addEventListener("progress", updateProgress);
-	oReq.addEventListener("error", transfer);
-	oReq.addEventListener("load", function () {
+	var createGraphs = function (ajaxdata) {
 		new Chart(document.getElementById("ambient").getContext("2d"), {
 			type: 'line',
 			data: {
@@ -158,7 +154,21 @@ window.addEventListener("load", function(event) {
 				}
 			}
 		});
-	});
+	};
+	
+	var oReq = new XMLHttpRequest();
+
+	oReq.onreadystatechange = function () {
+		if (oReq.readyState === XMLHttpRequest.DONE) {
+			if (oReq.status === 200) {
+				console.log(JSON.parse(this.responseText));
+				createGraphs(JSON.parse(this.responseText));
+			} else {
+				console.log(oReq.status);
+			}
+		}
+	};
 
 	oReq.open("GET", "/data.json");
+	oReq.send();
 }, false);
