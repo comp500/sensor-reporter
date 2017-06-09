@@ -34,7 +34,7 @@ module.exports.getData = function () {
 		// TODO: Parse file
 		/*resolve([
 			{
-				sensorID: 4,
+				sensorID: 3,
 				value: latestTemp,
 				unit: "&#176;C",
 				measurement: "Temperature",
