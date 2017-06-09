@@ -133,7 +133,7 @@ app.get('/data.json', function (req, res) {
 		};
 		var average = {}; // running mean object
 		Object.keys(config).forEach(function (key) { // build metadata
-			metadata[key] = { // data for graphs
+			dataObject.metadata[key] = { // data for graphs
 				unit: config[key].unit,
 				measurement: config[key].measurement,
 				location: config[key].location,
