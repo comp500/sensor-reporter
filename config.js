@@ -6,7 +6,9 @@ module.exports = {
 		unit: "&#176;C",
 		measurement: "Temperature",
 		location: "Geography office",
-		htmlDecimal: 1
+		htmlDecimal: 1,
+		graphMin: 0,
+		graphMax: 35
 	},
 	1: { // humidity
 		graphDecimal: 0,
@@ -15,7 +17,9 @@ module.exports = {
 		unit: "%",
 		measurement: "Humidity",
 		location: "Geography office",
-		htmlDecimal: 1
+		htmlDecimal: 1,
+		graphMin: 10,
+		graphMax: 95
 	},
 	2: { // pressure
 		graphDecimal: 0,
@@ -25,7 +29,9 @@ module.exports = {
 		small: true,
 		measurement: "Pressure",
 		location: "Geography office",
-		htmlDecimal: 0
+		htmlDecimal: 0,
+		graphMin: 990,
+		graphMax: 1040
 	},
 	// TODO: add external temperature sensor (ID 3)
 	4: { // light
@@ -36,6 +42,8 @@ module.exports = {
 		small: true,
 		measurement: "Light",
 		location: "Geography office",
-		htmlDecimal: 0
+		htmlDecimal: 0,
+		graphMin: 10000,
+		graphMax: 65535
 	}
 };

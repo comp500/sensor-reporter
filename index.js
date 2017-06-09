@@ -142,6 +142,8 @@ app.get('/data.json', function (req, res) {
 				unit: config[key].unit,
 				measurement: config[key].measurement,
 				location: config[key].location,
+				min: config[key].graphMin,
+				max: config[key].graphMax
 			};
 			dataObject.values[key] = []; // initialise array
 			average[key] = 0; // set average to 0
