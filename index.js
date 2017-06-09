@@ -145,7 +145,7 @@ app.get('/data.json', function (req, res) {
 				if (key == "time") {
 					// ignore
 				} else if (config[key] == null) {
-					console.error("Data value not found in configuration");
+					console.error("Data value "+ key +" not found in configuration");
 				} else {
 					average[key] += parseFloat(docs[i][key]);
 				}
