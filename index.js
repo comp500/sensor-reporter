@@ -84,9 +84,8 @@ var consolidate = function (type) { // not done
 app.engine('handlebars', exphbs({defaultLayout: false}));
 app.set('view engine', 'handlebars');
 app.use(express.static('static')); // use static folder
-app.use(compression()); // use compression
 app.use(minify()); // use minification
-
+app.use(compression()); // use compression
 
 app.get('/', function (req, res) { // homepage
 	if (ready) {
