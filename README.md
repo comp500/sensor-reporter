@@ -5,6 +5,7 @@ This is a weather station based on node.js that creates a webpage and graphs fro
 - Raspberry Pi
 - node.js
 - npm
+
 Node package requirements are listed in package.json.
 
 ### Supports:
