@@ -74,7 +74,7 @@ var mergeConfig = function (data, decimal) {
 	return merged;
 };
 
-var consolidate = function (type) { // not done
+var consolidate = function (type) {
 	if (type == "day") {
 	} else if (type == "week") {
 	}
@@ -84,6 +84,7 @@ var consolidate = function (type) { // not done
 app.engine('handlebars', exphbs({defaultLayout: false}));
 app.set('view engine', 'handlebars');
 app.use(express.static('static')); // use static folder
+app.use('/src/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // serve bootstrap
 app.use(minify()); // use minification
 app.use(compression()); // use compression
 
