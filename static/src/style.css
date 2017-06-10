@@ -14,10 +14,6 @@ canvas {
 	-ms-user-select: none;
 }
 
-#center {
-	text-align: center
-}
-
 .alert-warning {
 	background-color: #FF9800;
 	color: #373a3c;

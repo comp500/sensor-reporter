@@ -51,10 +51,10 @@
 			{{#each sensors}}
 			<div class="col-md-3">
 				<div class="jumbotron">
-					<h1 class="display-3" id="center">{{value}}{{#if small}}<strong class="small-unit">{{{unit}}}</strong>{{else}}{{{unit}}}{{/if}}</h1>
-					<p class="lead" id="center">{{measurement}}</p>
+					<h1 class="display-3" class="text-center">{{value}}{{#if small}}<strong class="small-unit">{{{unit}}}</strong>{{else}}{{{unit}}}{{/if}}</h1>
+					<p class="lead" class="text-center">{{measurement}}</p>
 					<hr>
-					<p class="lead" id="center">{{location}}</p>
+					<p class="lead" class="text-center">{{location}}</p>
 				</div>
 			</div>
 			{{/each}}
