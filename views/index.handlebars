@@ -35,7 +35,7 @@
 	</nav>
 	
 	{{#unless ready}}
-	<div class="alert alert-warning" style="margin-top:-1.75em" role="alert">
+	<div class="alert alert-warning" role="alert">
 		<strong>Warning!</strong> There is no data available yet.
 	</div>
 	<div class="container">
@@ -43,15 +43,15 @@
 	</div>
 	{{/unless}}
 	{{#if ready}}
-	<div class="alert alert-warning" style="margin-top:-1.75em" role="alert">
-		<strong>Warning!</strong> This is not production software
+	<div class="alert alert-warning" role="alert">
+		<strong>Warning!</strong> This is not production software.
 	</div>
 	<div class="container">
 		<div class="row">
 			{{#each sensors}}
 			<div class="col-md-3">
 				<div class="jumbotron">
-					<h1 class="display-3" id="center">{{value}}{{#if small}}<strong style="font-size:0.5em">{{{unit}}}</strong>{{else}}{{{unit}}}{{/if}}</h1>
+					<h1 class="display-3" id="center">{{value}}{{#if small}}<strong class="small-unit">{{{unit}}}</strong>{{else}}{{{unit}}}{{/if}}</h1>
 					<p class="lead" id="center">{{measurement}}</p>
 					<hr>
 					<p class="lead" id="center">{{location}}</p>
@@ -65,9 +65,7 @@
 		</p>
 
 		<hr>
-	</div>
-	
-	<div class="container">
+
 		<div class="row">
 			{{#each sensors}}
 			<div class="col-md-6">
@@ -76,7 +74,7 @@
 						<h4 class="card-title">{{measurement}}</h4>
 						<h6 class="card-subtitle text-muted">Sensor {{sensorID}} in {{location}}</h6>
 					</div>
-					<div style="width:90%; margin-left:5%; margin-bottom: 5%;">
+					<div class="graph-container">
 						<canvas id="graph-{{sensorID}}"></canvas>
 					</div>
 				</div>

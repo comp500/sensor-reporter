@@ -23,6 +23,7 @@ canvas {
 	color: #373a3c;
 	border: 0px;
 	border-radius: 0px;
+	margin-top: -1.75em;
 }
 
 html {
@@ -40,4 +41,14 @@ html {
 
 .container .text-muted {
 	margin: 0px;
+}
+
+.graph-container {
+	width: 90%;
+	margin-left: 5%;
+	margin-bottom: 5%;
+}
+
+.small-unit {
+	font-size: 0.5em;
 }
