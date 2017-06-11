@@ -150,14 +150,15 @@ app.get('/data.json', function (req, res) {
 			dataObject.values[key] = []; // initialise array
 			average[key] = 0; // set average to 0
 		});
-		for (var i = (docs.length - 1); i >= 0; i--) { // loop through reverse order
-			Object.keys(docs[i]).forEach(function (key) { // add to mean
+		var docsReversed = docs.reverse();
+		for (var i = 0; i < docsReversed.length; i++) {
+			Object.keys(docsReversed[i]).forEach(function (key) { // add to mean
 				if (isNaN(parseInt(key, 10))) {
 					// ignore
 				} else if (config[key] == null) {
 					console.error("Data value "+ key +" not found in configuration");
 				} else {
-					average[key] += parseFloat(docs[i][key]);
+					average[key] += parseFloat(docsReversed[i][key]);
 				}
 			});
 			if ((i % 5) == 4) { // every 5 minutes
