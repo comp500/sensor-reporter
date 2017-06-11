@@ -133,7 +133,7 @@ app.get('/output.csv', function (req, res) { // for export csv file
 });
 
 app.get('/data.json', function (req, res) {
-	db.find({}).sort({ time: 1 }).limit(100).exec(function (err, docs) { // query 100 newest entries, newest first
+	db.find({}).sort({ time: -1 }).limit(100).exec(function (err, docs) { // query 100 newest entries, newest first
 		var dataObject = { // output object
 			metadata: [],
 			values: {}
@@ -150,7 +150,7 @@ app.get('/data.json', function (req, res) {
 			dataObject.values[key] = []; // initialise array
 			average[key] = 0; // set average to 0
 		});
-		for (var i = 0; i < docs.length; i++) {
+		for (var i = (docs.length - 1); i >= 0; i--) { // loop through reverse order
 			Object.keys(docs[i]).forEach(function (key) { // add to mean
 				if (isNaN(parseInt(key, 10))) {
 					// ignore
