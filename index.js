@@ -133,7 +133,7 @@ app.get('/output.csv', function (req, res) { // for export csv file
 });
 
 app.get('/data.json', function (req, res) {
-	db.find({}).sort({ time: -1 }).limit(100).exec(function (err, docs) { // query 100 newest entries, newest first
+	db.find({}).sort({ time: 1 }).limit(100).exec(function (err, docs) { // query 100 newest entries, newest first
 		var dataObject = { // output object
 			metadata: [],
 			values: {}
