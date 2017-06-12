@@ -19,24 +19,36 @@ module.exports.connect = function () { // connect to database
 	});
 };
 
+var serialize = function (values, taskKey) {
+	var data = [];
+	data.push({
+		name: 'recorded',
+		value: values.time.toJSON() // for indexing
+	});
+	Object.keys(values).forEach(function (key) { // add to mean
+		if (isNaN(parseInt(key, 10))) {
+			// ignore
+		} else {
+			data.push({
+				name: key,
+				value: values[key]
+			});
+		}
+	});
+	return {
+		key: taskKey,
+		data: data
+	};
+};
+
+var deserialize = function (entity) {
+	
+};
+
 module.exports.pushData = function (values) { // add new data, as JSON
 	return new Promise(function (resolve, reject) {
 		var taskKey = datastore.key('Measurement'); // get key
-		var entity = { // TODO change to a function which translates?
-			key: taskKey,
-			data: [
-				{
-					name: 'recorded',
-					value: values.time.toJSON() // for indexing
-				},
-				{
-					name: 'data',
-					value: values, // sub entity JSON
-					excludeFromIndexes: true
-				}
-			]
-		};
-		resolve(datastore.save(entity));
+		resolve(datastore.save(serialize(values, taskKey)));
 	});
 };
 
