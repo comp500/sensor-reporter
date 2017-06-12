@@ -11,12 +11,16 @@ const db = require('./databases/nedb.js'); // TODO: move to a config file
 // define variables
 var latestSensors;
 var ready = false;
+var databaseReady = false;
 
 sensors.load().then(function () {
-	// read first measurement immediately
-	setImmediate(readData);
-	// read measurements on interval
-	setInterval(readData, config[0].interval);
+	db.connect().then(function () {
+		databaseReady = true;
+		// read first measurement immediately
+		setImmediate(readData);
+		// read measurements on interval
+		setInterval(readData, config[0].interval);
+	});
 }).catch(function (err) {
 	console.error(err);
 	return;
@@ -90,70 +94,74 @@ app.get('/', function (req, res) { // homepage
 });
 
 app.get('/output.csv', function (req, res) { // for export csv file
-	db.getExportAll().then(function (docs) {
-		var titles = "Time";
-		Object.keys(config).forEach(function (key) {
-			titles += "," + config[key].measurement;
-		});
-		res.write(titles + "\n"); // titles
-		for (let i = 0; i < docs.length; i++) { // for every document
-			var time = docs[i].time; // time when recorded
-			var formattedDate = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate(); // format time/date for excel format
-			var formattedTime = time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
-			var formattedDateTime = formattedDate + " " + formattedTime; // github doesn't like long lines
-			res.write(formattedDateTime + ","); // write time/date
-			// write sensor data
-			var sensorData = mergeConfig(docs[i], "exportDecimal");
-			for (let i = 0; i < sensorData.length; i++) {
-				if (i == (sensorData.length - 1)) {
-					res.write(sensorData[i] + "\n");
-				} else {
-					res.write(sensorData[i] + ",");
+	if (databaseReady) {
+		db.getExportAll().then(function (docs) {
+			var titles = "Time";
+			Object.keys(config).forEach(function (key) {
+				titles += "," + config[key].measurement;
+			});
+			res.write(titles + "\n"); // titles
+			for (let i = 0; i < docs.length; i++) { // for every document
+				var time = docs[i].time; // time when recorded
+				var formattedDate = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate(); // format time/date for excel format
+				var formattedTime = time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
+				var formattedDateTime = formattedDate + " " + formattedTime; // github doesn't like long lines
+				res.write(formattedDateTime + ","); // write time/date
+				// write sensor data
+				var sensorData = mergeConfig(docs[i], "exportDecimal");
+				for (let i = 0; i < sensorData.length; i++) {
+					if (i == (sensorData.length - 1)) {
+						res.write(sensorData[i] + "\n");
+					} else {
+						res.write(sensorData[i] + ",");
+					}
 				}
 			}
-		}
-		res.end(); // end response
-	}); // TODO catch with appropriate logging api?
+			res.end(); // end response
+		}); // TODO catch with appropriate logging api?
+	}
 });
 
 app.get('/data.json', function (req, res) {
-	db.getGraphs().then(function (docs) {
-		var dataObject = { // output object
-			metadata: [],
-			values: {}
-		};
-		var average = {}; // running mean object
-		Object.keys(config).forEach(function (key) { // build metadata
-			dataObject.metadata.push({ // data for graphs
-				unit: config[key].unit,
-				measurement: config[key].measurement,
-				min: config[key].graphMin,
-				max: config[key].graphMax,
-				sensorID: key
-			});
-			dataObject.values[key] = []; // initialise array
-			average[key] = 0; // set average to 0
-		});
-		for (var i = 0; i < docs.length; i++) {
-			Object.keys(docs[i]).forEach(function (key) { // add to mean
-				if (isNaN(parseInt(key, 10))) {
-					// ignore
-				} else if (config[key] == null) {
-					console.error("Data value "+ key +" not found in configuration");
-				} else {
-					average[key] += parseFloat(docs[i][key]);
-				}
-			});
-			if ((i % 5) == 4) { // every 5 minutes
-				Object.keys(average).forEach(function (key) { // calculate means
-					var averageCalculated = average[key] / 5;
-					dataObject.values[key].push(averageCalculated.toFixed(config[key].graphDecimal)); // add to values
-					average[key] = 0; // reset average
+	if (databaseReady) {
+		db.getGraphs().then(function (docs) {
+			var dataObject = { // output object
+				metadata: [],
+				values: {}
+			};
+			var average = {}; // running mean object
+			Object.keys(config).forEach(function (key) { // build metadata
+				dataObject.metadata.push({ // data for graphs
+					unit: config[key].unit,
+					measurement: config[key].measurement,
+					min: config[key].graphMin,
+					max: config[key].graphMax,
+					sensorID: key
 				});
+				dataObject.values[key] = []; // initialise array
+				average[key] = 0; // set average to 0
+			});
+			for (var i = 0; i < docs.length; i++) {
+				Object.keys(docs[i]).forEach(function (key) { // add to mean
+					if (isNaN(parseInt(key, 10))) {
+						// ignore
+					} else if (config[key] == null) {
+						console.error("Data value "+ key +" not found in configuration");
+					} else {
+						average[key] += parseFloat(docs[i][key]);
+					}
+				});
+				if ((i % 5) == 4) { // every 5 minutes
+					Object.keys(average).forEach(function (key) { // calculate means
+						var averageCalculated = average[key] / 5;
+						dataObject.values[key].push(averageCalculated.toFixed(config[key].graphDecimal)); // add to values
+						average[key] = 0; // reset average
+					});
+				}
 			}
-		}
-		res.send(JSON.stringify(dataObject)); // send data
-	});
+			res.send(JSON.stringify(dataObject)); // send data
+		});
+	}
 });
 
 app.listen(80, function () { // listen on port 80
