@@ -31,7 +31,7 @@ var serialize = function (values, taskKey) {
 		} else {
 			data.push({
 				name: key,
-				value: values[key]
+				value: values[key] // maybe don't index?
 			});
 		}
 	});
@@ -42,7 +42,15 @@ var serialize = function (values, taskKey) {
 };
 
 var deserialize = function (entity) {
-	
+	var values = {};
+	for (var i = 0; i < entity.data.length; i++) {
+		if (entity.data[i].name == 'recorded') {
+			values.time = new Date(entity.data[i].value);
+		} else {
+			values[entity.data[i].name] = entity.data[i].value;
+		}
+	}
+	return values;
 };
 
 module.exports.pushData = function (values) { // add new data, as JSON
