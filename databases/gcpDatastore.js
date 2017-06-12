@@ -66,7 +66,15 @@ module.exports.pushData = function (values) { // add new data, as JSON
 
 module.exports.getGraphs = function () { // get graphs TODO: specify time/date
 	return new Promise(function (resolve, reject) {
-		
+		var query = datastore.createQuery('Measurement')
+			.order('recorded', {
+				descending: true
+			}).limit(100);
+		datastore.runQuery(query).then(function (results) {
+			resolve(deserializeMultiple(results[0]).reverse()); // reverse order
+		}).catch(function (err) {
+			reject(err);
+		});
 	});
 };
 
@@ -75,14 +83,22 @@ module.exports.getExportAll = function () { // get all data in database
 		var query = datastore.createQuery('Measurement').order('recorded');
 		datastore.runQuery(query).then(function (results) {
 			resolve(deserializeMultiple(results[0]));
-		}).catch(function () {
-			reject();
+		}).catch(function (err) {
+			reject(err);
 		});
 	});
 };
 
 module.exports.getExportBetweenDates = function (dateStart, dateEnd) { // get data between dates
 	return new Promise(function (resolve, reject) {
-		
+		var query = datastore.createQuery('Measurement')
+			.filter('recorded', '>', dateStart)
+			.filter('recorded', '<', dateEnd)
+			.order('recorded');
+		datastore.runQuery(query).then(function (results) {
+			resolve(deserializeMultiple(results[0]));
+		}).catch(function (err) {
+			reject(err);
+		});
 	});
 };
