@@ -27,7 +27,7 @@ var readData = function () {
 	sensors.run().then(function (values) {
 		values.time = new Date();
 		latestSensors = values;
-		db.insert(values);
+		db.pushData(values);
 		ready = true;
 	}).catch(function (err) {
 		console.error(err);
@@ -62,12 +62,6 @@ var mergeConfig = function (data, decimal) {
 		}
 	});
 	return merged;
-};
-
-var consolidate = function (type) {
-	if (type == "day") {
-	} else if (type == "week") {
-	}
 };
 
 // start handlebars

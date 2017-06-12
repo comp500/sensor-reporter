@@ -32,7 +32,7 @@ module.exports.getGraphs = function () { // get graphs TODO: specify time/date
 			if (err) {
 				reject(err);
 			} else {
-				resolve(docs.reverse());
+				resolve(docs.reverse()); // reverse order, oldest first in graph data
 			}
 		});
 	});
