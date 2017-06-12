@@ -90,7 +90,7 @@ app.get('/', function (req, res) { // homepage
 });
 
 app.get('/output.csv', function (req, res) { // for export csv file
-	db.find({}).sort({ time: 1 }).exec(function (err, docs) { // find all records and sort
+	db.getExportAll().then(function (docs) {
 		var titles = "Time";
 		Object.keys(config).forEach(function (key) {
 			titles += "," + config[key].measurement;
@@ -113,11 +113,11 @@ app.get('/output.csv', function (req, res) { // for export csv file
 			}
 		}
 		res.end(); // end response
-	});
+	}); // TODO catch with appropriate logging api?
 });
 
 app.get('/data.json', function (req, res) {
-	db.find({}).sort({ time: -1 }).limit(100).exec(function (err, docs) { // query 100 newest entries, newest first
+	db.getGraphs().then(function (docs) {
 		var dataObject = { // output object
 			metadata: [],
 			values: {}
@@ -134,15 +134,14 @@ app.get('/data.json', function (req, res) {
 			dataObject.values[key] = []; // initialise array
 			average[key] = 0; // set average to 0
 		});
-		var docsReversed = docs.reverse();
-		for (var i = 0; i < docsReversed.length; i++) {
-			Object.keys(docsReversed[i]).forEach(function (key) { // add to mean
+		for (var i = 0; i < docs.length; i++) {
+			Object.keys(docs[i]).forEach(function (key) { // add to mean
 				if (isNaN(parseInt(key, 10))) {
 					// ignore
 				} else if (config[key] == null) {
 					console.error("Data value "+ key +" not found in configuration");
 				} else {
-					average[key] += parseFloat(docsReversed[i][key]);
+					average[key] += parseFloat(docs[i][key]);
 				}
 			});
 			if ((i % 5) == 4) { // every 5 minutes
