@@ -6,18 +6,11 @@ const app = express();
 const compression = require('compression'); // middle-out compression
 const minify = require('express-minify');
 const sensors = require('./sensors/index.js');
+const db = require('./databases/nedb.js'); // TODO: move to a config file
 
 // define variables
 var latestSensors;
 var ready = false;
-
-// open datastores
-var Datastore = require('nedb');
-var dateFormat = require('dateformat');
-var open = new Date();
-var db = new Datastore({ filename: 'latest2.txt', autoload: true }); // TODO: rename to dbLatest
-//var dbDaily = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "day.txt", autoload: true });
-//var dbWeekly = new Datastore({ filename: dateFormat(open, "yyyy-mm-dd'T00:00:00'") + "week.txt", autoload: true }); // TODO: fix file name for each week not day
 
 sensors.load().then(function () {
 	// read first measurement immediately
