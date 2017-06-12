@@ -42,13 +42,17 @@ var serialize = function (values, taskKey) {
 };
 
 var deserialize = function (entity) {
-	var values = {};
-	for (var i = 0; i < entity.data.length; i++) {
-		if (entity.data[i].name == 'recorded') {
-			values.time = new Date(entity.data[i].value);
-		} else {
-			values[entity.data[i].name] = entity.data[i].value;
-		}
+	if (entity.recorded != null) {
+		entity.time = new Date(entity.recorded);
+		delete entity.recorded;
+	}
+	return entity;
+};
+
+var deserializeMultiple = function (entities) {
+	var values = [];
+	for (var i = 0; i < entities.length; i++) {
+		values.push(deserialize(entities[i]));
 	}
 	return values;
 };
@@ -70,8 +74,7 @@ module.exports.getExportAll = function () { // get all data in database
 	return new Promise(function (resolve, reject) {
 		var query = datastore.createQuery('Measurement').order('recorded');
 		datastore.runQuery(query).then(function (results) {
-			console.log(results);
-			resolve();
+			resolve(deserializeMultiple(results[0]));
 		}).catch(function () {
 			reject();
 		});
