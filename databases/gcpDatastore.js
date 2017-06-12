@@ -5,7 +5,7 @@
 const Datastore = require('@google-cloud/datastore');
 
 // Instantiates a client
-const datastore;
+var datastore;
 
 module.exports = {};
 module.exports.connect = function () { // connect to database
