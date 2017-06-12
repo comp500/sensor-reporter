@@ -68,7 +68,13 @@ module.exports.getGraphs = function () { // get graphs TODO: specify time/date
 
 module.exports.getExportAll = function () { // get all data in database
 	return new Promise(function (resolve, reject) {
-		
+		var query = datastore.createQuery('Measurement').order('recorded');
+		datastore.runQuery(query).then(function (results) {
+			console.log(results);
+			resolve();
+		}).catch(function () {
+			reject();
+		});
 	});
 };
 
