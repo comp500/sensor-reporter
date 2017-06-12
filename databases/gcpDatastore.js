@@ -11,7 +11,9 @@ module.exports = {};
 module.exports.connect = function () { // connect to database
 	return new Promise(function (resolve, reject) {
 		try {
-			datastore = Datastore(); // initialise database
+			datastore = Datastore({
+				keyFilename: '../weather-station-keys.json'
+			}); // initialise database
 			resolve();
 		} catch (e) {
 			reject(e);
