@@ -25,7 +25,7 @@ var serialize = function (values, taskKey) {
 	var data = [];
 	data.push({
 		name: 'recorded',
-		value: values.time.toJSON() // for indexing
+		value: values.time // for indexing
 	});
 	Object.keys(values).forEach(function (key) { // add to mean
 		if (isNaN(parseInt(key, 10))) {
