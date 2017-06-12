@@ -6,7 +6,7 @@ const app = express();
 const compression = require('compression'); // middle-out compression
 const minify = require('express-minify');
 const sensors = require('./sensors/index.js');
-const db = require('./databases/nedb.js'); // TODO: move to a config file
+const db = require('./databases/gcpDatastore.js'); // TODO: move to a config file
 
 // define variables
 var latestSensors;

@@ -4,6 +4,7 @@
   "description": "A node-based web interface for sensors",
   "main": "index.js",
   "dependencies": {
+	"@google-cloud/datastore": "^1.0.2",
     "bootstrap": "^4.0.0-alpha.6",
     "chart.js": "^2.6.0",
     "compression": "^1.6.2",
