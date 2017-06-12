@@ -159,6 +159,13 @@ app.get('/data.json', function (req, res) {
 					});
 				}
 			}
+			if (docs.length < 100) {
+				Object.keys(dataObject.values).forEach(function (key) {
+					while (dataObject.values[key].length < 20) {
+						dataObject.values[key].unshift(0);
+					}
+				});
+			}
 			res.send(JSON.stringify(dataObject)); // send data
 		});
 	}
