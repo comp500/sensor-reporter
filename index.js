@@ -26,10 +26,7 @@ var readData = function () {
 	// read data from sensors
 	sensors.run().then(function (values) {
 		values.time = new Date();
-		//latestTemp = temperature.toFixed(2); // store to 2dp TODO: make this use config file
-		//latestPressure = (pressure / 100).toFixed(2);
-		//latestHumidity = humidity.toFixed(2);
-		latestSensors = values; // TODO: fix decimal places
+		latestSensors = values;
 		db.insert(values);
 		ready = true;
 	}).catch(function (err) {

@@ -23,7 +23,7 @@ module.exports.getData = function () {
 			if (err) {
 				reject(err);
 			}
-			var latestTemp = temperature.toFixed(2);
+			var latestTemp = temperature.toFixed(2); // TODO: make this use config file for decimal places?
 			var latestPressure = (pressure / 100).toFixed(2);
 			var latestHumidity = humidity.toFixed(2);
 			resolve({
