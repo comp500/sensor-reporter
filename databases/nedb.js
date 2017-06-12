@@ -51,8 +51,8 @@ module.exports.getExportAll = function () { // get all data in database
 };
 
 module.exports.getExportBetweenDates = function (dateStart, dateEnd) { // get data between dates
-	return new Promise(function (resolve, reject) { // TODO filter dates
-		db.find({}).sort({ time: 1 }).exec(function (err, docs) { // find all records and sort
+	return new Promise(function (resolve, reject) {
+		db.find({ time: { $gte: dateStart, $lte: dateEnd } }).sort({ time: 1 }).exec(function (err, docs) { // find records after/before dates and sort
 			if (err) {
 				reject(err);
 			} else {
