@@ -43,7 +43,7 @@ module.exports = {
 		measurement: "Light",
 		location: "Geography office",
 		htmlDecimal: 0,
-		graphMin: 10000,
+		graphMin: 0,
 		graphMax: 65535
 	}
 };
