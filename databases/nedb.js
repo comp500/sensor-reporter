@@ -44,7 +44,7 @@ module.exports.getExportAll = function () { // get all data in database
 			if (err) {
 				reject(err);
 			} else {
-				resolve();
+				resolve(docs);
 			}
 		});
 	});
@@ -56,7 +56,7 @@ module.exports.getExportBetweenDates = function (dateStart, dateEnd) { // get da
 			if (err) {
 				reject(err);
 			} else {
-				resolve();
+				resolve(docs);
 			}
 		});
 	});
