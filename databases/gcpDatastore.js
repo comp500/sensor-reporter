@@ -5,18 +5,38 @@
 const Datastore = require('@google-cloud/datastore');
 
 // Instantiates a client
-const datastore = Datastore();
+const datastore;
 
 module.exports = {};
 module.exports.connect = function () { // connect to database
 	return new Promise(function (resolve, reject) {
-		
+		try {
+			datastore = Datastore(); // initialise database
+			resolve();
+		} catch (e) {
+			reject(e);
+		}
 	});
 };
 
 module.exports.pushData = function (values) { // add new data, as JSON
 	return new Promise(function (resolve, reject) {
-		
+		var taskKey = datastore.key('Measurement'); // get key
+		var entity = { // TODO change to a function which translates?
+			key: taskKey,
+			data: [
+				{
+					name: 'recorded',
+					value: values.time.toJSON() // for indexing
+				},
+				{
+					name: 'data',
+					value: values, // sub entity JSON
+					excludeFromIndexes: true
+				}
+			]
+		};
+		resolve(datastore.save(entity));
 	});
 };
 
