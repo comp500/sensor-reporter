@@ -86,8 +86,7 @@
 	
 	<footer class="footer">
 		<div class="container">
-			<p class="text-muted">Source code on <a href="https://github.com/comp500/sensor-reporter">GitHub</a></p>
-			{{#if commitHash}}<p class="text-muted">Running git commit <a href="https://github.com/comp500/sensor-reporter/commit/{{commitHash}}">{{commitHash}}</a></p>{{/if}}
+			<p class="text-muted">Source code on <a href="https://github.com/comp500/sensor-reporter">GitHub</a>{{#if commitHash}}<br>Running git commit <a href="https://github.com/comp500/sensor-reporter/commit/{{commitHash}}">{{commitHash}}</a>{{/if}}</p>
 		</div>
 	</footer>
 	<script defer src="src/js/Chart.bundle.min.js"></script>
