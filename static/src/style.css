@@ -6,24 +6,20 @@
 .alert {
 	border-radius: 0;
 	border: 0;
+	color: #ffffff
 }
 .alert-success { 
 	background-color: #18bc9c;
-	color: #ffffff
 }
 .alert-warning { 
 	background-color: #f39c12;
-	color: #ffffff
 }
 .alert-danger { 
 	background-color: #e74c3c;
-	color: #ffffff
 }
 .alert-info { 
 	background-color: #3498db;
-	color: #ffffff
 }
-
 
 .footer {
 	width: 100%;
