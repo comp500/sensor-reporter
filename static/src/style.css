@@ -41,3 +41,8 @@
 .card {
 	margin-bottom: 30px;
 }
+
+.sensor-card {
+	border: 0;
+	background-color: #eceeef;
+}
