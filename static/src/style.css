@@ -4,7 +4,8 @@
 }
 
 .alert-info {
-	
+	border-radius: 0;
+	border: 0;
 }
 
 .footer {
@@ -23,6 +24,7 @@
 .small-unit {
 	font-size: 0.5em;
 }
+
 .card {
 	margin-bottom: 30px;
 }
