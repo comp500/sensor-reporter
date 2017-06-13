@@ -47,6 +47,7 @@
 		<strong>Heads up!</strong> This software could break at any time.
 	</div>
 	<div class="container">
+		<h3>Latest data</h3>
 		<div class="row">
 			{{#each sensors}}
 			<div class="col-md-3">
@@ -61,11 +62,10 @@
 			</div>
 			{{/each}}
 		</div>
-		
 		<p class="lead">
 			Data recorded <span class="measurementTime">{{measurementTime}}</span> seconds ago
 		</p>
-
+		<h3>Graphs</h3>
 		<div class="row">
 			{{#each sensors}}
 			<div class="col-md-6">
