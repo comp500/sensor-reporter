@@ -12,6 +12,7 @@ const db = require('./databases/gcpDatastore.js'); // TODO: move to a config fil
 var latestSensors;
 var ready = false;
 var databaseReady = false;
+var commitHash = null;
 
 sensors.load().then(function () {
 	db.connect().then(function () {
@@ -20,6 +21,13 @@ sensors.load().then(function () {
 		setImmediate(readData);
 		// read measurements on interval
 		setInterval(readData, config[0].interval);
+	});
+	require('child_process').exec('git rev-parse HEAD', function(err, stdout) {
+		if (err) {
+			console.error(err);
+		} else {
+			commitHash = stdout;
+		}
 	});
 }).catch(function (err) {
 	console.error(err);
@@ -84,7 +92,8 @@ app.get('/', function (req, res) { // homepage
 		res.render("index", { // display ready page with sensor data
 			ready: true,
 			measurementTime: secondsPast.toFixed(0),
-			sensors: mergeConfig(latestSensors, "htmlDecimal")
+			sensors: mergeConfig(latestSensors, "htmlDecimal"),
+			commitHash: commitHash
 		});
 	} else {
 		res.render("index", { // show not ready page
