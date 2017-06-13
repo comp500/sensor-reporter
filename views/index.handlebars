@@ -50,11 +50,13 @@
 		<div class="row">
 			{{#each sensors}}
 			<div class="col-md-3">
-				<div class="jumbotron">
-					<h1 class="display-3 text-center">{{value}}{{#if small}}<strong class="small-unit">{{{unit}}}</strong>{{else}}{{{unit}}}{{/if}}</h1>
-					<p class="lead text-center">{{measurement}}</p>
-					<hr>
-					<p class="lead text-center">{{location}}</p>
+				<div class="card">
+					<div class="card-block text-center">
+						<h1 class="display-3">{{value}}{{#if small}}<strong class="small-unit">{{{unit}}}</strong>{{else}}{{{unit}}}{{/if}}</h1>
+						<p class="lead">{{measurement}}</p>
+						<hr>
+						<p class="lead">{{location}}</p>
+					</div>
 				</div>
 			</div>
 			{{/each}}
@@ -63,8 +65,6 @@
 		<p class="lead">
 			Data recorded <span class="measurementTime">{{measurementTime}}</span> seconds ago
 		</p>
-
-		<hr>
 
 		<div class="row">
 			{{#each sensors}}
