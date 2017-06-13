@@ -66,12 +66,12 @@ module.exports.pushData = function (values) { // add new data, as JSON
 	});
 };
 
-module.exports.getGraphs = function () { // get graphs TODO: specify time/date
+module.exports.getGraphs = function (graphLength) { // get graphs TODO: specify time/date
 	return new Promise(function (resolve, reject) {
 		var query = datastore.createQuery('Measurement')
 			.order('recorded', {
 				descending: true
-			}).limit(100);
+			}).limit(graphLength);
 		datastore.runQuery(query).then(function (results) {
 			resolve(deserializeMultiple(results[0]).reverse()); // reverse order
 		}).catch(function (err) {

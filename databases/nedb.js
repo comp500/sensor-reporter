@@ -26,9 +26,9 @@ module.exports.pushData = function (values) { // add new data, as JSON
 	});
 };
 
-module.exports.getGraphs = function () { // get graphs TODO: specify time/date
+module.exports.getGraphs = function (graphLength) { // get graphs TODO: specify time/date
 	return new Promise(function (resolve, reject) {
-		db.find({}).sort({ time: -1 }).limit(100).exec(function (err, docs) { // query 100 newest entries, newest first
+		db.find({}).sort({ time: -1 }).limit(graphLength).exec(function (err, docs) { // query 100 newest entries, newest first
 			if (err) {
 				reject(err);
 			} else {

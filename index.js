@@ -124,7 +124,8 @@ app.get('/output.csv', function (req, res) { // for export csv file
 
 app.get('/data.json', function (req, res) {
 	if (databaseReady) {
-		db.getGraphs().then(function (docs) {
+		var graphLength = 200;
+		db.getGraphs(graphLength).then(function (docs) {
 			var dataObject = { // output object
 				metadata: [],
 				values: {}
@@ -159,9 +160,9 @@ app.get('/data.json', function (req, res) {
 					});
 				}
 			}
-			if (docs.length < 100) {
+			if (docs.length < graphLength) {
 				Object.keys(dataObject.values).forEach(function (key) {
-					while (dataObject.values[key].length < 40) {
+					while (dataObject.values[key].length < (graphLength / 5)) {
 						dataObject.values[key].unshift(null);
 					}
 				});
