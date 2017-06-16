@@ -4,5 +4,6 @@ module.exports = {
 	website: {
 		enable: true,
 		port: 80
-	}
+	},
+	graphLength: 200
 };

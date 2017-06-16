@@ -1,4 +1,4 @@
-module.exports = function (app, sensorConfig) {
+module.exports = function (app, sensorConfig, config, db, live) {
 	var mergeConfig = function (data, decimal) {
 		var merged = []; // order is implied in export, not needed in live
 		Object.keys(sensorConfig).forEach(function (key) { // to ignore a sensor, remove from config
@@ -29,7 +29,7 @@ module.exports = function (app, sensorConfig) {
 	};
 	
 	app.get('/', function (req, res) { // homepage
-		if (ready) {
+		if (live.getReadyStatus()) {
 			var now = new Date(); // get current time
 			var secondsPast = (now.getTime() - latestSensors.time.getTime()) / 1000; // get seconds from recorded time
 			res.render("index", { // display ready page with sensor data
@@ -46,7 +46,7 @@ module.exports = function (app, sensorConfig) {
 	});
 
 	app.get('/output.csv', function (req, res) { // for export csv file
-		if (databaseReady) {
+		if (db.getReadyStatus()) { // TODO backport PHP exports
 			db.getExportAll().then(function (docs) {
 				var titles = "Time";
 				Object.keys(sensorConfig).forEach(function (key) {
@@ -75,9 +75,8 @@ module.exports = function (app, sensorConfig) {
 	});
 
 	app.get('/data.json', function (req, res) {
-		if (databaseReady) {
-			var graphLength = 200;
-			db.getGraphs(graphLength).then(function (docs) {
+		if (db.getReadyStatus()) {
+			db.getGraphs(config.graphLength).then(function (docs) {
 				var dataObject = { // output object
 					metadata: [],
 					values: {}
@@ -112,9 +111,9 @@ module.exports = function (app, sensorConfig) {
 						});
 					}
 				}
-				if (docs.length < graphLength) {
+				if (docs.length < config.graphLength) {
 					Object.keys(dataObject.values).forEach(function (key) {
-						while (dataObject.values[key].length < (graphLength / 5)) {
+						while (dataObject.values[key].length < (config.graphLength / 5)) {
 							dataObject.values[key].unshift(null);
 						}
 					});

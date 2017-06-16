@@ -1,29 +1,23 @@
-// load modules
-const express = require('express');
-const exphbs  = require('express-handlebars');
-const sensorConfig = require('../sensors/config.js');
-const app = express();
-const compression = require('compression'); // middle-out compression
-const minify = require('express-minify');
-const db = require('../databases/gcpDatastore.js'); // TODO: move to a config file
+module.exports = function (sensorConfig, config, db, live) {
+	// load modules
+	const express = require('express');
+	const exphbs  = require('express-handlebars');
+	const app = express();
+	const compression = require('compression'); // middle-out compression
+	const minify = require('express-minify');
 
-// define variables
-var latestSensors;
-var ready = false;
-var databaseReady = false;
-var commitHash = null;
+	// start handlebars
+	app.engine('handlebars', exphbs({defaultLayout: false}));
+	app.set('view engine', 'handlebars');
+	app.use(compression()); // use compression
+	app.use('/src/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // serve bootstrap
+	app.use('/src/js', express.static(__dirname + '/node_modules/chart.js/dist')); // serve chart.js
+	app.use(minify()); // use minification
+	app.use(express.static('static')); // use static folder
 
-// start handlebars
-app.engine('handlebars', exphbs({defaultLayout: false}));
-app.set('view engine', 'handlebars');
-app.use(compression()); // use compression
-app.use('/src/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // serve bootstrap
-app.use('/src/js', express.static(__dirname + '/node_modules/chart.js/dist')); // serve chart.js
-app.use(minify()); // use minification
-app.use(express.static('static')); // use static folder
+	require("routes.js")(app, sensorConfig, config, db, live);
 
-require("routes.js")(app, sensorConfig);
-
-app.listen(config.website.port, function () { // listen on port
-	console.log('Weather station online on port ' + config.website.port);
-});
+	app.listen(config.website.port, function () { // listen on port
+		console.log('Weather station online on port ' + config.website.port);
+	});
+};
