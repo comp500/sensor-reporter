@@ -1,7 +1,7 @@
 // load modules
 const express = require('express');
 const exphbs  = require('express-handlebars');
-const config = require('../config.js');
+const sensorConfig = require('../sensors/config.js');
 const app = express();
 const compression = require('compression'); // middle-out compression
 const minify = require('express-minify');
@@ -12,6 +12,15 @@ var latestSensors;
 var ready = false;
 var databaseReady = false;
 var commitHash = null;
+
+// start handlebars
+app.engine('handlebars', exphbs({defaultLayout: false}));
+app.set('view engine', 'handlebars');
+app.use(compression()); // use compression
+app.use('/src/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // serve bootstrap
+app.use('/src/js', express.static(__dirname + '/node_modules/chart.js/dist')); // serve chart.js
+app.use(minify()); // use minification
+app.use(express.static('static')); // use static folder
 
 var mergeConfig = function (data, decimal) {
 	var merged = []; // order is implied in export, not needed in live
@@ -41,15 +50,6 @@ var mergeConfig = function (data, decimal) {
 	});
 	return merged;
 };
-
-// start handlebars
-app.engine('handlebars', exphbs({defaultLayout: false}));
-app.set('view engine', 'handlebars');
-app.use(compression()); // use compression
-app.use('/src/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // serve bootstrap
-app.use('/src/js', express.static(__dirname + '/node_modules/chart.js/dist')); // serve chart.js
-app.use(minify()); // use minification
-app.use(express.static('static')); // use static folder
 
 app.get('/', function (req, res) { // homepage
 	if (ready) {
@@ -147,6 +147,6 @@ app.get('/data.json', function (req, res) {
 	}
 });
 
-app.listen(80, function () { // listen on port 80
-	console.log('Weather station online on port 80');
+app.listen(config.website.port, function () { // listen on port
+	console.log('Weather station online on port ' + config.website.port);
 });

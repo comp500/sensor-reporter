@@ -1,7 +1,6 @@
 // load modules
 const sensors = require('./sensors/index.js');
 const config = require('./config.js');
-const website = require('./website/index.js');
 const db = require('./databases/gcpDatastore.js'); // TODO: move to a config file
 
 // define variables
@@ -43,3 +42,6 @@ var readData = function () {
 	});
 };
 
+if (config.website && config.website.enable) {
+	require('./website/index.js')();
+}
