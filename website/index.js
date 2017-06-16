@@ -15,7 +15,7 @@ module.exports = function (sensorConfig, config, db, live) {
 	app.use(minify()); // use minification
 	app.use(express.static('./static')); // use static folder
 
-	require("routes.js")(app, sensorConfig, config, db, live);
+	require("./website/routes.js")(app, sensorConfig, config, db, live);
 
 	app.listen(config.website.port, function () { // listen on port
 		console.log('Weather station online on port ' + config.website.port);
