@@ -7,13 +7,14 @@ module.exports = function (sensorConfig, config, db, live) {
 	const minify = require('express-minify');
 
 	// start handlebars
+	app.set('views', './website/views');
 	app.engine('handlebars', exphbs({defaultLayout: false}));
 	app.set('view engine', 'handlebars');
 	app.use(compression()); // use compression
 	app.use('/src/css', express.static('./node_modules/bootstrap/dist/css')); // serve bootstrap
 	app.use('/src/js', express.static('./node_modules/chart.js/dist')); // serve chart.js
 	app.use(minify()); // use minification
-	app.use(express.static('./static')); // use static folder
+	app.use(express.static('./website/static')); // use static folder
 
 	require("./routes.js")(app, sensorConfig, config, db, live);
 
