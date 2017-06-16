@@ -31,12 +31,12 @@ module.exports = function (app, sensorConfig, config, db, live) {
 	app.get('/', function (req, res) { // homepage
 		if (live.getReadyStatus()) {
 			var now = new Date(); // get current time
-			var secondsPast = (now.getTime() - latestSensors.time.getTime()) / 1000; // get seconds from recorded time
+			var secondsPast = (now.getTime() - live.getLatest().time.getTime()) / 1000; // get seconds from recorded time
 			res.render("index", { // display ready page with sensor data
 				ready: true,
 				measurementTime: secondsPast.toFixed(0),
-				sensors: mergeConfig(latestSensors, "htmlDecimal"),
-				commitHash: commitHash
+				sensors: mergeConfig(live.getLatest(), "htmlDecimal"),
+				commitHash: live.getCommitHash()
 			});
 		} else {
 			res.render("index", { // show not ready page

@@ -1,17 +1,11 @@
 // load modules
 const sensors = require('./sensors/index.js');
 const config = require('./config.js');
+const live = require('./live.js');
 const db = require('./databases/gcpDatastore.js'); // TODO: move to a config file
-
-// define variables
-var latestSensors;
-var ready = false;
-var databaseReady = false;
-var commitHash = null;
 
 sensors.load().then(function () {
 	db.connect().then(function () {
-		databaseReady = true;
 		// read first measurement immediately
 		setImmediate(readData);
 		// read measurements on interval
@@ -21,7 +15,7 @@ sensors.load().then(function () {
 		if (err) {
 			console.error(err);
 		} else {
-			commitHash = stdout;
+			live.setCommitHash(stdout);
 		}
 	});
 }).catch(function (err) {
@@ -33,9 +27,8 @@ var readData = function () {
 	// read data from sensors
 	sensors.run().then(function (values) {
 		values.time = new Date();
-		latestSensors = values;
+		live.setLatest(values);
 		db.pushData(values);
-		ready = true;
 	}).catch(function (err) {
 		console.error(err);
 		return;
