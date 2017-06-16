@@ -1,6 +1,7 @@
 // load modules
 const sensors = require('./sensors/index.js');
 const config = require('./config.js');
+const sensorConfig = require('./sensors/config.js');
 const live = require('./live.js');
 const db = require('./databases/gcpDatastore.js'); // TODO: move to a config file
 
@@ -11,13 +12,15 @@ sensors.load().then(function () {
 		// read measurements on interval
 		setInterval(readData, config.interval);
 	});
-	require('child_process').exec('git rev-parse HEAD', function(err, stdout) {
-		if (err) {
-			console.error(err);
-		} else {
-			live.setCommitHash(stdout);
-		}
-	});
+	if (config.website && config.website.enable) {
+		require('child_process').exec('git rev-parse HEAD', function(err, stdout) {
+			if (err) {
+				console.error(err);
+			} else {
+				live.setCommitHash(stdout);
+			}
+		});
+	}
 }).catch(function (err) {
 	console.error(err);
 	return;
@@ -36,5 +39,5 @@ var readData = function () {
 };
 
 if (config.website && config.website.enable) {
-	require('./website/index.js')();
+	require('./website/index.js')(sensorConfig, config, db, live);
 }
