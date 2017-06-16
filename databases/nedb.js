@@ -1,5 +1,6 @@
 var Datastore = require('nedb');
 var db = new Datastore({ filename: 'latest2.txt' });
+var ready = false;
 
 module.exports = {};
 module.exports.connect = function () { // connect to database
@@ -8,10 +9,15 @@ module.exports.connect = function () { // connect to database
 			if (err) {
 				reject(err);
 			} else {
+				ready = true;
 				resolve();
 			}
 		});
 	});
+};
+
+module.exports.getReadyStatus = function () { // return database ready status
+	return ready;
 };
 
 module.exports.pushData = function (values) { // add new data, as JSON
