@@ -22,36 +22,7 @@ app.use('/src/js', express.static(__dirname + '/node_modules/chart.js/dist')); /
 app.use(minify()); // use minification
 app.use(express.static('static')); // use static folder
 
-var mergeConfig = function (data, decimal) {
-	var merged = []; // order is implied in export, not needed in live
-	Object.keys(config).forEach(function (key) { // to ignore a sensor, remove from config
-		if (data[key] != null) {
-			var rounded = parseFloat(data[key]).toFixed(config[key][decimal]); // round to config value
-			if (decimal == "exportDecimal") {
-				merged.push(rounded); // just push value
-			} else if (decimal == "htmlDecimal") {
-				var dataOutput = { // data for templating engine
-					value: rounded,
-					unit: config[key].unit,
-					measurement: config[key].measurement,
-					location: config[key].location,
-					sensorID: key
-				};
-				if (config[key].small == true) { // default is false
-					dataOutput.small = true;
-				}
-				merged.push(dataOutput);
-			} else {
-				console.error("Invalid rounding value");
-			}
-		} else {
-			console.error("Configured sensor not found in data.");
-		}
-	});
-	return merged;
-};
-
-require("routes.js")(app);
+require("routes.js")(app, sensorConfig);
 
 app.listen(config.website.port, function () { // listen on port
 	console.log('Weather station online on port ' + config.website.port);

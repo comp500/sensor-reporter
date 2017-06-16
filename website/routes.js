@@ -1,4 +1,33 @@
-module.exports = function (app) {
+module.exports = function (app, sensorConfig) {
+	var mergeConfig = function (data, decimal) {
+		var merged = []; // order is implied in export, not needed in live
+		Object.keys(sensorConfig).forEach(function (key) { // to ignore a sensor, remove from config
+			if (data[key] != null) {
+				var rounded = parseFloat(data[key]).toFixed(sensorConfig[key][decimal]); // round to config value
+				if (decimal == "exportDecimal") {
+					merged.push(rounded); // just push value
+				} else if (decimal == "htmlDecimal") {
+					var dataOutput = { // data for templating engine
+						value: rounded,
+						unit: sensorConfig[key].unit,
+						measurement: sensorConfig[key].measurement,
+						location: sensorConfig[key].location,
+						sensorID: key
+					};
+					if (sensorConfig[key].small == true) { // default is false
+						dataOutput.small = true;
+					}
+					merged.push(dataOutput);
+				} else {
+					console.error("Invalid rounding value");
+				}
+			} else {
+				console.error("Configured sensor not found in data.");
+			}
+		});
+		return merged;
+	};
+	
 	app.get('/', function (req, res) { // homepage
 		if (ready) {
 			var now = new Date(); // get current time
@@ -20,8 +49,8 @@ module.exports = function (app) {
 		if (databaseReady) {
 			db.getExportAll().then(function (docs) {
 				var titles = "Time";
-				Object.keys(config).forEach(function (key) {
-					titles += "," + config[key].measurement;
+				Object.keys(sensorConfig).forEach(function (key) {
+					titles += "," + sensorConfig[key].measurement;
 				});
 				res.write(titles + "\n"); // titles
 				for (let i = 0; i < docs.length; i++) { // for every document
@@ -54,12 +83,12 @@ module.exports = function (app) {
 					values: {}
 				};
 				var average = {}; // running mean object
-				Object.keys(config).forEach(function (key) { // build metadata
+				Object.keys(sensorConfig).forEach(function (key) { // build metadata
 					dataObject.metadata.push({ // data for graphs
-						unit: config[key].unit,
-						measurement: config[key].measurement,
-						min: config[key].graphMin,
-						max: config[key].graphMax,
+						unit: sensorConfig[key].unit,
+						measurement: sensorConfig[key].measurement,
+						min: sensorConfig[key].graphMin,
+						max: sensorConfig[key].graphMax,
 						sensorID: key
 					});
 					dataObject.values[key] = []; // initialise array
@@ -69,7 +98,7 @@ module.exports = function (app) {
 					Object.keys(docs[i]).forEach(function (key) { // add to mean
 						if (isNaN(parseInt(key, 10))) {
 							// ignore
-						} else if (config[key] == null) {
+						} else if (sensorConfig[key] == null) {
 							console.error("Data value "+ key +" not found in configuration");
 						} else {
 							average[key] += parseFloat(docs[i][key]);
@@ -78,7 +107,7 @@ module.exports = function (app) {
 					if ((i % 5) == 4) { // every 5 minutes
 						Object.keys(average).forEach(function (key) { // calculate means
 							var averageCalculated = average[key] / 5;
-							dataObject.values[key].push(averageCalculated.toFixed(config[key].graphDecimal)); // add to values
+							dataObject.values[key].push(averageCalculated.toFixed(sensorConfig[key].graphDecimal)); // add to values
 							average[key] = 0; // reset average
 						});
 					}
