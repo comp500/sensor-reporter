@@ -5,7 +5,9 @@ module.exports = function (sensorConfig, config, db, live) {
 	const app = express();
 	const compression = require('compression'); // middle-out compression
 	const minify = require('express-minify');
+	const expressGoogleAnalytics = require('express-google-analytics');
 
+	app.use(expressGoogleAnalytics('UA-105993096-1'));
 	// start handlebars
 	app.set('views', './website/views');
 	app.engine('handlebars', exphbs({defaultLayout: false}));
