@@ -46,7 +46,7 @@ module.exports = function (app, sensorConfig, config, db, live) {
 		}
 	});
 
-	app.get('/output.csv', function (req, res) { // for export csv file
+	/*app.get('/output.csv', function (req, res) { // for export csv file
 		if (db.getReadyStatus()) { // TODO backport PHP exports
 			db.getExportAll().then(function (docs) {
 				var titles = "Time";
@@ -73,7 +73,7 @@ module.exports = function (app, sensorConfig, config, db, live) {
 				res.end(); // end response
 			}); // TODO catch with appropriate logging api?
 		}
-	});
+	});*/
 
 	app.get('/data.json', function (req, res) {
 		if (db.getReadyStatus()) {
