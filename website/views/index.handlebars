@@ -33,9 +33,6 @@
 			</li>
 		</ul>
 	</nav>
-	<div class="alert alert-danger" role="alert">
-		<strong>Attention!</strong> There are known issues with export and graphing on this site. Please use <a href="http://weather.infra.link"><strong>this</strong></a> version instead.
-	</div>
 	{{#unless ready}}
 	<div class="alert alert-warning" role="alert">
 		<strong>Warning!</strong> There is no data available yet.
@@ -45,8 +42,8 @@
 	</div>
 	{{/unless}}
 	{{#if ready}}
-	<div class="alert alert-info" role="alert">
-		<strong>Heads up!</strong> This software could break at any time.
+	<div class="alert alert-danger" role="alert">
+		<strong>Attention!</strong> There are known issues with export and graphing on this site. Please use <a href="http://weather.infra.link"><strong>this</strong></a> version instead.
 	</div>
 	<div class="container">
 		<h3>Latest data</h3>
