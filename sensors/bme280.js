@@ -1,5 +1,5 @@
 const BME280 = require("bme280-sensor");
-const bme280 = new BME280(options);
+const bme280 = new BME280(); // Use defaults
 
 module.exports = {};
 
