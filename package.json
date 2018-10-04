@@ -1,18 +1,18 @@
 {
-  "name": "sensor-reporter",
-  "version": "2.0.0",
-  "description": "A node-based reporting program for sensors on a pi",
-  "main": "index.js",
-  "dependencies": {
-    "@google-cloud/datastore": "^1.0.2",
-    "bme280-sensor": "^0.1.6",
-    "pubnub": "^4.21.5",
-    "tsl2591": "^0.2.0"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "comp500, arbvl",
-  "license": "ISC"
+	"name": "sensor-reporter",
+	"version": "2.0.0",
+	"description": "A node-based reporting program for sensors on a pi",
+	"main": "index.js",
+	"dependencies": {
+		"@google-cloud/datastore": "^1.0.2",
+		"bme280-sensor": "^0.1.6",
+		"pubnub": "^4.21.5",
+		"tsl2591": "^0.2.0"
+	},
+	"devDependencies": {},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "comp500, arbvl",
+	"license": "ISC"
 }
