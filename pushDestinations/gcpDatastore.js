@@ -6,7 +6,6 @@ const Datastore = require('@google-cloud/datastore');
 
 // Instantiates a client
 var datastore;
-var ready = false;
 
 module.exports = {};
 module.exports.connect = function () { // connect to database
@@ -15,10 +14,8 @@ module.exports.connect = function () { // connect to database
 			datastore = Datastore({
 				keyFilename: '../weather-station-keys.json'
 			}); // initialise database
-			ready = true;
 			resolve();
 		} catch (e) {
-			ready = false;
 			reject(e);
 		}
 	});
@@ -44,10 +41,6 @@ var serialize = function (values, taskKey) {
 		key: taskKey,
 		data: data
 	};
-};
-
-module.exports.getReadyStatus = function () { // return database ready status
-	return ready;
 };
 
 module.exports.pushData = function (values) { // add new data, as JSON
