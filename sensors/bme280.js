@@ -13,7 +13,7 @@ module.exports.getData = function() {
 			.readSensorData()
 			.then(data => {
 				var latestTemp = data.temperature_C.toFixed(2); // TODO: make this use config file for decimal places?
-				var latestPressure = (data.pressure_hPa / 100).toFixed(2);
+				var latestPressure = data.pressure_hPa.toFixed(2);
 				var latestHumidity = data.humidity.toFixed(2);
 				resolve({
 					0: latestTemp,
