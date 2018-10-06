@@ -1,9 +1,4 @@
 module.exports = {
-	interval: 60 * 1000, // 1 minute readings
-	database: "gcpDatastore",
-	website: {
-		enable: true,
-		port: 80
-	},
-	graphLength: 200
+	recordInterval: 60 * 1000, // 1 minute readings
+	storeInterval: 30 // Store average every 30 readings
 };
