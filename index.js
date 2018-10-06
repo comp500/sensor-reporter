@@ -3,6 +3,10 @@ const sensors = require("./sensors/index.js");
 const config = require("./config.js");
 const db = require("./pushDestinations/gcpDatastore.js");
 const pubnub = require("./pushDestinations/pubnub.js");
+const schedule = require("node-schedule");
+
+var currentNumber = 0;
+var currentAverages = {};
 
 sensors
 	.load()
@@ -13,30 +17,50 @@ sensors
 		setImmediate(readData);
 		// read measurements on interval
 		setInterval(readData, config.recordInterval);
+		// send to GCP on cron interval
+		schedule.scheduleJob(config.storeCron, function(fireDate) {
+			if (currentNumber > 0) {
+				Object.keys(currentAverages).forEach(key => {
+					// Calculate averages
+					currentAverages[key] = currentAverages[key] / currentNumber;
+				});
+				currentAverages.time = fireDate;
+				db.pushData(currentAverages); // Push averages to cloud datastore
+
+				// Clear averages
+				currentAverages = {};
+				currentNumber = 0;
+			}
+		});
 	})
 	.catch(function(err) {
 		console.error(err);
 		return;
 	});
 
-var counter = 0;
+function addAverages(values) {
+	Object.keys(values).forEach(key => {
+		if (key == "time") return;
+		if (currentAverages[key]) {
+			currentAverages[key] += values[key];
+		} else {
+			currentAverages[key] = values[key];
+		}
+	});
+	currentNumber++;
+}
 
-var readData = function() {
+function readData() {
 	// read data from sensors
 	sensors
 		.run()
 		.then(function(values) {
 			values.time = new Date();
 			pubnub.pushData(values);
-			counter++;
-			// TODO averages
-			if (counter == config.storeInterval) {
-				db.pushData(values);
-				counter = 0;
-			}
+			addAverages(values);
 		})
 		.catch(function(err) {
 			console.error(err);
 			return;
 		});
-};
+}
