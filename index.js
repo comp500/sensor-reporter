@@ -60,6 +60,7 @@ function readData() {
 			values.time = new Date();
 			pubnub.pushData(values);
 			addAverages(values);
+			console.log("Successfully logged data [" + values.time + "]");
 		})
 		.catch(function(err) {
 			console.error(err);
