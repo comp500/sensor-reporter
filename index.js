@@ -22,7 +22,9 @@ sensors
 			if (currentNumber > 0) {
 				Object.keys(currentAverages).forEach(key => {
 					// Calculate averages
-					currentAverages[key] = currentAverages[key] / currentNumber;
+					currentAverages[key] = (
+						currentAverages[key] / currentNumber
+					).toFixed(config.decimalPlaces[key]);
 				});
 				currentAverages.time = fireDate;
 				db.pushData(currentAverages); // Push averages to cloud datastore
@@ -42,9 +44,9 @@ function addAverages(values) {
 	Object.keys(values).forEach(key => {
 		if (key == "time") return;
 		if (currentAverages[key]) {
-			currentAverages[key] += values[key];
+			currentAverages[key] += parseFloat(values[key]);
 		} else {
-			currentAverages[key] = values[key];
+			currentAverages[key] = parseFloat(values[key]);
 		}
 	});
 	currentNumber++;

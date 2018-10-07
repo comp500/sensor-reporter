@@ -1,5 +1,6 @@
 const BME280 = require("bme280-sensor");
 const bme280 = new BME280(); // Use defaults
+const config = require("../config.js");
 
 module.exports = {};
 
@@ -12,9 +13,9 @@ module.exports.getData = function() {
 		bme280
 			.readSensorData()
 			.then(data => {
-				var latestTemp = data.temperature_C.toFixed(2); // TODO: make this use config file for decimal places?
-				var latestPressure = data.pressure_hPa.toFixed(2);
-				var latestHumidity = data.humidity.toFixed(2);
+				var latestTemp = data.temperature_C.toFixed(config.decimalPlaces[0]);
+				var latestHumidity = data.humidity.toFixed(config.decimalPlaces[1]);
+				var latestPressure = data.pressure_hPa.toFixed(config.decimalPlaces[2]);
 				resolve({
 					0: latestTemp,
 					1: latestHumidity,
